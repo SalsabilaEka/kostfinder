@@ -1,0 +1,349 @@
+:root {
+    --default-font: "Poppins", sans-serif;
+    --heading-font: "Poppins", sans-serif;
+    --nav-font: "Poppins", sans-serif;
+    --brand-font: "Righteous", sans-serif;
+    --background-color: #F9EDE3;
+    --default-color: #ffffff;
+    --heading-color: #ffffff;
+    --accent-color: #673E42;
+    --surface-color: #6B4145;
+    --contrast-color: #ffffff;
+    --nav-color: #6B4145;
+    --nav-hover-color: #673E42;
+    --text-color: #4F5153;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--default-font);
+    color: #4F5153;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 20;
+    overflow-x: hidden;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.box4 {
+    margin: 0;
+    background: #f6ede5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* Header Styles */
+.header {
+    background-color: #E6C99E;
+    border-bottom: 5px solid #673E42;
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.logo h1 {
+    font-family: var(--brand-font);
+    color: #673E42;
+    font-size: 32px;
+    margin: 0;
+}
+
+.navmenu {
+    display: flex;
+    align-items: center;
+}
+
+.navmenu ul {
+    display: flex;
+    list-style: none;
+    margin-left: 115px;
+    padding: 0;
+    gap: 28px;
+}
+
+.navmenu la {
+    display: flex;
+    list-style: none;
+    margin-left: 300px;
+    padding: 0;
+    gap: 25px;
+}
+
+.navmenu a {
+    color: var(--nav-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.navmenu a:hover,
+.navmenu a.active {
+    color: var(--nav-hover-color);
+    font-weight: 700;
+}
+
+.btn-getstartedOK {
+    font-family: var(--default-font); /* Pastikan pakai font default */
+    color: var(--nav-color);
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: none;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 20px;
+    transition: all 0.3s;
+    background-color: transparent;
+}
+
+.btn-getstartedOK:hover {
+    font-family: var(--default-font); /* Konsisten saat hover */
+    font-weight: bolder;
+    color: var(--nav-hover-color);
+    transform: translateY(-2px);
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--nav-color);
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* Tambahkan padding bottom ke main content */
+.main {
+    min-height: calc(100vh - 60px);
+    /* Menyesuaikan tinggi footer */
+    padding-bottom: 60px;
+    /* Ruang untuk footer */
+}
+
+/* Footer */
+.footer {
+    background-color: #ECCDA0;
+    border-top: 5px solid #673E42;
+    padding: 15px 0;
+    text-align: center;
+    position: relative;
+    /* Diubah dari fixed ke relative */
+    width: 100%;
+    margin-top: auto !important;
+    /* Untuk push footer ke bawah */
+}
+
+.footer p {
+    color: black;
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0;
+    padding: 5px 0;
+}
+
+
+@media (max-width: 768px) {
+    .footer p {
+        color: black;
+        font-size: 13px;
+        font-weight: 400;
+        margin: 0;
+    }
+}
+
+/* Mobile Menu */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 400px;
+    height: 100vh;
+    background-color: #E6C99E;
+    border-left: 5px solid #673E42;
+    z-index: 1000;
+    transition: right 0.3s ease;
+    padding: 70px 15px 20px;
+    overflow-y: auto;
+}
+
+.mobile-nav.active {
+    right: 0;
+}
+
+.mobile-nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.mobile-nav li {
+    margin-bottom: 20px;
+}
+
+.mobile-nav a {
+    color: var(--nav-color);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    display: block;
+}
+
+.mobile-nav a:hover {
+    color: var(--nav-hover-color);
+    font-weight: 700;
+}
+
+.mobile-nav .btn-getstarted {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+    .mobile-nav {
+        padding: 60px 12px 15px;
+    }
+
+    .mobile-nav li {
+        margin-bottom: 18px;
+    }
+
+    .mobile-nav a {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 380px) {
+    .mobile-nav {
+        width: 85%;
+        padding: 60px 10px 15px;
+    }
+
+    .mobile-nav li {
+        margin-bottom: 15px;
+    }
+
+    .mobile-nav a {
+        font-size: 16px;
+    }
+
+    .mobile-nav .btn-getstarted {
+        font-size: 16px;
+        margin-top: 15px;
+    }
+
+    /* Pastikan overlay menutupi seluruh layar */
+    .overlay {
+        width: 100vw;
+        height: 100vh;
+    }
+}
+
+.mobile-nav.active {
+    right: 0;
+}
+
+.mobile-nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.mobile-nav li {
+    margin-bottom: 20px;
+}
+
+.mobile-nav a {
+    color: var(--nav-color);
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.mobile-nav a:hover {
+    color: var(--nav-hover-color);
+    font-weight: 700;
+}
+
+.mobile-nav .btn-getstarted {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Responsive */
+@media (max-width: 1230px) {
+    .header-container {
+        justify-content: flex-end;
+    }
+
+    .logo {
+        position: static;
+        transform: none;
+        margin-right: auto;
+    }
+
+    .navmenu {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+}

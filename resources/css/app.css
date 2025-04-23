@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+    .custom-button {
+        @apply bg-choco text-bone px-4 py-2 rounded-lg;
+    }
+}
