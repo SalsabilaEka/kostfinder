@@ -24,6 +24,8 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 |
 */
 
+Route::get('/', [MapController::class, 'index'])->name('index');
+
 Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [PasswordResetController::class, 'showForgotPasswordForm'])
         ->name('password.request');
@@ -37,7 +39,6 @@ Route::middleware('guest')->group(function () {
 
 Route::get('/map', [MapController::class, 'map'])->name('map');
 Route::get('/addMap', [MapController::class, 'addMap'])->name('addMap');
-Route::get('/', [MapController::class, 'index'])->name('index');
 Route::get('/keunggulan', [MapController::class, 'keunggulan'])->name('keunggulan');
 Route::get('/fitur', [MapController::class, 'fitur'])->name('fitur');
 Route::get('/infografis', [MapController::class, 'infografis'])->name('infografis');
