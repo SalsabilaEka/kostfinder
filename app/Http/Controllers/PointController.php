@@ -85,7 +85,8 @@ class PointController extends Controller
         $request->validate([
             'nama' => 'required',
             'geom' => 'required',
-            'foto' => 'mimes:jpeg,jpg,png,gif|max:10000' //10 MB
+            'harga' => 'required|integer|min:0',
+            'foto' => 'mimes:jpeg,jpg,png,gif|max:100000' //10 MB
         ],
         [
             'nama.required' => 'Name is required',
@@ -238,12 +239,12 @@ class PointController extends Controller
         $point = Points::findOrFail($id);
 
         if (auth()->user()->email !== 'adminkostfinder@gmail.com' &&
-            $point->user_name !== auth()->user()->email) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Anda tidak memiliki izin untuk mengedit data ini'
-            ], 403);
-        }
+        auth()->user()->email !== $point->user_name) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Anda tidak memiliki izin untuk mengubah data ini'
+        ], 403);
+    }
 
         $data = $request->all();
         $checkboxes = [
@@ -260,11 +261,20 @@ class PointController extends Controller
         $data['air'] = $request->input('air', '0') == '1' ? 'Ada' : 'Tidak';
 
         if ($request->hasFile('foto')) {
-            if ($point->foto && Storage::exists('public/images/' . $point->foto)) {
-                Storage::delete('public/images/' . $point->foto);
+            // Hapus foto lama jika ada
+            if ($point->foto) {
+                $oldFilename = basename($point->foto);
+                $oldPath = public_path('uploads/kost/' . $oldFilename);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
             }
-            $path = $request->file('foto')->store('public/images');
-            $data['foto'] = basename($path);
+
+            // Simpan foto baru
+            $file = $request->file('foto');
+            $filename = 'kost_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/kost'), $filename);
+            $data['foto'] = "https://edgize.mapid.co.id/uploads/kost/{$filename}";
         }
 
         $point->update($data);
@@ -279,28 +289,32 @@ class PointController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-{
-    $point = Points::findOrFail($id);
+    {
+        $point = Points::findOrFail($id);
 
-    if (auth()->user()->email !== 'adminkostfinder@gmail.com' &&
-        $point->user_name !== auth()->user()->email) {
+        if (auth()->user()->email !== 'adminkostfinder@gmail.com' &&
+            $point->user_name !== auth()->user()->email) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized action'
+            ], 403);
+        }
+
+        if ($point->foto) {
+            $filename = basename($point->foto);
+            $path = public_path('uploads/kost/' . $filename);
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+
+        $point->delete();
+
         return response()->json([
-            'success' => false,
-            'message' => 'Unauthorized action'
-        ], 403);
+            'success' => true,
+            'message' => 'Data deleted successfully'
+        ]);
     }
-
-    if ($point->foto) {
-        Storage::delete('public/images/' . $point->foto);
-    }
-
-    $point->delete();
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Data deleted successfully'
-    ]);
-}
 
     public function table(Request $request)
     {
@@ -327,7 +341,7 @@ class PointController extends Controller
             'alamat' => 'required',
             'geom' => 'required',
             'jenis' => 'required',
-            'harga' => 'required|numeric',
+            'harga' => 'required|integer|min:0',
             'foto' => 'sometimes|mimes:jpeg,jpg,png,gif|max:10000'
         ]);
 
@@ -342,10 +356,16 @@ class PointController extends Controller
             }
 
             $filename = null;
-        if ($request->hasFile('foto')) {
-            $path = $request->file('foto')->store('public/images');
-            $filename = basename($path);
-        }
+            if ($request->hasFile('foto')) {
+                $file = $request->file('foto');
+                $filename = 'kost_' . time() . '.' . $file->getClientOriginalExtension();
+
+                // Simpan ke public/uploads/kost
+                $file->move(public_path('uploads/kost'), $filename);
+
+                // Simpan URL lengkap
+                $filename = "https://edgize.mapid.co.id/uploads/kost/{$filename}";
+            }
 
             $point = new Points();
             $point->user_name = auth()->user()->email;

@@ -39,7 +39,7 @@
 
         #map {
             position: absolute;
-            top: 75px;
+            top: 70px;
             bottom: 0;
             width: 100%;
         }
@@ -1253,6 +1253,7 @@
         //----------------- Basemap controls ----------------------//
         function setBasemap(styleUrl) {
             saveLayerStates();
+            removeBuffers();
 
             const currentCenter = map.getCenter();
             const currentZoom = map.getZoom();
@@ -1294,7 +1295,7 @@
                         applyLayerStates();
                     });
 
-                if (bufferCenter && selectedBufferDistance) {
+                if (isBufferActive && bufferCenter && selectedBufferDistance) {
                     createBuffer(bufferCenter, selectedBufferDistance);
                 }
 
@@ -1491,11 +1492,20 @@
                         const detailUrl = `/points/table?search=${encodeURIComponent(kosData.properties.nama)}`;
 
                         const timestamp = new Date().getTime();
-                        const fotoUrl = kosData.properties.foto ?
-                            (kosData.properties.foto.startsWith('http') ?
-                                `${kosData.properties.foto}?${timestamp}` :
-                                `/storage/images/${kosData.properties.foto}?${timestamp}`) :
-                            null;
+                        const getFotoUrl = (fotoPath) => {
+                            if (!fotoPath) return null;
+
+                            // Jika sudah URL lengkap
+                            if (fotoPath.startsWith('http')) {
+                                return `${fotoPath}?${new Date().getTime()}`;
+                            }
+
+                            // Jika path relatif (format lama)
+                            // Ubah ke URL lengkap dengan domain Anda
+                            return `https://edgize.mapid.co.id/${fotoPath.replace(/^\/?uploads\//, 'uploads/')}?${new Date().getTime()}`;
+                        };
+
+                        const fotoUrl = getFotoUrl(feature.properties.foto);
 
                         const popupContent = `
                             <h2>${kosData.properties.nama}</h2>
@@ -1503,7 +1513,13 @@
                                 Rp${Number(kosData.properties.harga).toLocaleString('id-ID')}/bulan
                             </div>
                             <div><strong>Jenis:</strong> ${kosData.properties.jenis}</div>
-                            ${fotoUrl ? `<img src="${fotoUrl}" class="img-thumbnail mt-2" style="width: 200px; height: 200px;">` : ''}
+                            ${fotoUrl ? `
+                                        <div style="margin-top: 10px; text-align: center;">
+                                            <img src="${fotoUrl}"
+                                                style="width: 220px; height: 220px; border-radius: 4px;"
+                                                onerror="this.style.display='none'">
+                                        </div>
+                                    ` : ''}
 
                             <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
                             <button class="direction-button" data-lng="${kosData.geometry.coordinates[0]}" data-lat="${kosData.geometry.coordinates[1]}">
@@ -1743,6 +1759,7 @@
         let bufferMode = false;
         let bufferClickHandler = null;
         let isBufferActive = false;
+        let mapEventListeners = [];
 
         const bufferModal = document.getElementById('buffer-modal');
         const bufferButton = document.getElementById('buffer-button');
@@ -1930,26 +1947,27 @@
 
         function removeBuffers() {
             bufferLayerIds.forEach(layerId => {
-                if (map.getLayer(layerId)) {
-                    map.removeLayer(layerId);
-                }
+                if (map.getLayer(layerId)) map.removeLayer(layerId);
             });
             bufferLayerIds = [];
 
-            if (map.getSource('buffer-source')) {
-                map.removeSource('buffer-source');
-            }
-
+            if (map.getSource('buffer-source')) map.removeSource('buffer-source');
             if (bufferCenterMarker) {
                 bufferCenterMarker.remove();
                 bufferCenterMarker = null;
             }
 
+            // Reset semua state terkait buffer
+            bufferCenter = null;
+            selectedBufferDistance = null;
             isBufferActive = false;
+            bufferMode = false;
 
             resetAllMarkersToOriginalColors();
-
             document.getElementById('delete-buffer-button').style.display = 'none';
+
+            mapEventListeners.forEach(listener => map.off(listener));
+            mapEventListeners = [];
         }
 
         function resetAllMarkersToOriginalColors() {
@@ -2036,6 +2054,8 @@
                 map.getCanvas().style.cursor = '';
                 bufferMode = false;
             });
+
+            mapEventListeners.push(bufferClickHandler);
         });
 
 
@@ -3114,13 +3134,22 @@
 
             if (isMobile) {
                 mapControls.style.position = 'fixed';
-                mapControls.style.bottom = '80px';
                 mapControls.style.left = '10px';
                 mapControls.style.right = '10px';
-                mapControls.style.top = 'auto';
                 mapControls.style.width = 'auto';
                 mapControls.style.maxHeight = '60vh';
                 mapControls.style.overflowY = 'auto';
+
+                // Responsif top
+                if (window.innerWidth <= 480) {
+                    // untuk layar HP kecil
+                    mapControls.style.top = '160px';
+                } else {
+                    // untuk layar HP agak besar (tablet kecil)
+                    mapControls.style.top = '140px';
+                }
+
+                mapControls.style.bottom = 'auto'; // pastikan tidak keikat bawah
             } else {
                 mapControls.style.position = 'absolute';
                 mapControls.style.top = '20px';
@@ -3129,8 +3158,10 @@
                 mapControls.style.bottom = 'auto';
                 mapControls.style.width = '300px';
                 mapControls.style.maxHeight = 'none';
+                mapControls.style.overflowY = 'visible';
             }
         }
+
 
         window.addEventListener('resize', updateToolsPanelPosition);
 
