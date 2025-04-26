@@ -1,9 +1,15 @@
-<div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #FAF6EF;
+            background-color: #F9EDE3;
             font-family: sans-serif;
         }
 
@@ -22,6 +28,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 400px;
+
         }
 
         .logo-container {
@@ -46,7 +53,7 @@
         }
 
         .form-input {
-            width: 100%;
+            width: 96%;
             padding: 0.5rem;
             border: none;
             border-radius: 0.375rem;
@@ -96,8 +103,140 @@
         .btn-submit:hover {
             background-color: #29241e;
         }
-    </style>
 
+
+        /* Media Queries for Responsive Design */
+   @media (max-width: 900px) {
+            .register-form {
+                padding: 1.5rem;
+                width: 100%;
+                max-width: 70%;
+            }
+
+            .logo {
+                max-width: 300px;
+            }
+
+            .form-input {
+                padding: 0.65rem;
+                max-width: 96%;
+            }
+
+            .btn-submit {
+                padding: 0.65rem 1rem;
+                max-width: 100px;
+            }
+        }
+        @media (max-width: 768px) {
+            .register-form {
+                padding: 1.5rem;
+                width: 100%;
+                max-width: 70%;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+
+            .form-input {
+                padding: 0.65rem;
+                max-width: 94%;
+            }
+
+            .btn-submit {
+                padding: 0.65rem 1rem;
+                max-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0.5rem;
+            }
+
+            .register-form {
+                padding: 1.25rem;
+                border-radius: 0.75rem;
+                width: 100%;
+                max-width: 70%;
+            }
+
+            .logo-container {
+                margin-bottom: 1rem;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+
+            .form-label {
+                font-size: 0.9rem;
+            }
+
+            .form-input {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+                max-width: 94%;
+            }
+
+            .checkbox-label {
+                font-size: 0.85rem;
+            }
+
+            .btn-submit {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+
+            .link {
+                font-size: 0.8rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .btn-submit {
+                max-width: 94%
+                width: 100%;
+            }
+            .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+        }
+
+        @media (max-width: 320px) {
+            .register-form {
+                padding: 1rem;
+            }
+
+            .logo {
+                max-width: 180px;
+            }
+
+            .form-input {
+                padding: 0.5rem;
+            }
+            .btn-submit {
+                max-width: 94%
+                width: 100%;
+            }
+            .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+        }
+
+    </style>
+</head>
+<body>
     <div class="main-container">
         <!-- Logo -->
         <div class="logo-container">
@@ -111,7 +250,7 @@
             <!-- Name -->
             <div class="form-group">
                 <label for="name" class="form-label">Nama</label>
-                <input id="name" class="form-input" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+                <input id="name"  class="form-input"  type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
                 @error('name')
                     <p class="error-text">{{ $message }}</p>
                 @enderror
@@ -134,7 +273,7 @@
                         name="password"
                         required autocomplete="new-password" />
                 @error('password')
-                    <p class="error-text">Kata sandi minimal berisi 8 karakter</p>
+                    <p class="error-text">Kata sandi minimal berisi 9 karakter</p>
                 @enderror
             </div>
 
@@ -160,4 +299,6 @@
             </div>
         </form>
     </div>
-</div>
+
+</body>
+</html>

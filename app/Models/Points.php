@@ -172,7 +172,6 @@ class Points extends Model
 
     public static function distanceDistribution($campusLat, $campusLng)
     {
-        // Ambil semua data terlebih dahulu
         $allKos = self::select('id', 'latitude', 'longitude')->get();
 
         $ranges = [
@@ -204,7 +203,7 @@ class Points extends Model
 
     private static function calculateHaversine($lat1, $lon1, $lat2, $lon2)
     {
-        $earthRadius = 6371000; // Radius bumi dalam meter
+        $earthRadius = 6371000;
 
         $dLat = deg2rad($lat2 - $lat1);
         $dLon = deg2rad($lon2 - $lon1);
@@ -232,7 +231,6 @@ class Points extends Model
             $results[$facility] = self::where($facility, true)->count();
         }
 
-        // Urutkan dari fasilitas paling banyak ke paling sedikit
         arsort($results);
 
         return [

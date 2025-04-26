@@ -156,7 +156,6 @@ class PointController extends Controller
     /**
      * Display the specified resource.
      */
-    // app/Http/Controllers/PointController.php
     public function show($id)
     {
         try {
@@ -217,6 +216,11 @@ class PointController extends Controller
     {
         $point = $this->point->find($id);
 
+        if (auth()->user()->email !== 'adminkostfinder@gmail.com' &&
+            $point->user_name !== auth()->user()->email) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $data = [
             'title' => 'Edit Point',
             'point' => $point,
@@ -233,7 +237,8 @@ class PointController extends Controller
     {
         $point = Points::findOrFail($id);
 
-        if ($point->user_name !== auth()->user()->email) {
+        if (auth()->user()->email !== 'adminkostfinder@gmail.com' &&
+            $point->user_name !== auth()->user()->email) {
             return response()->json([
                 'success' => false,
                 'message' => 'Anda tidak memiliki izin untuk mengedit data ini'
@@ -273,21 +278,29 @@ class PointController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        $point = $this->point->find($id);
-        $foto = $point->foto;
+    public function destroy($id)
+{
+    $point = Points::findOrFail($id);
 
-        if (!$point->delete()) {
-            return redirect()->back()->with('error', 'Failed to delete point');
-        }
-
-        if ($foto != null && file_exists('storage/images/' . $foto)) {
-            unlink('storage/images/' . $foto);
-        }
-
-        return redirect()->back()->with('success', 'Point deleted successfully');
+    if (auth()->user()->email !== 'adminkostfinder@gmail.com' &&
+        $point->user_name !== auth()->user()->email) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Unauthorized action'
+        ], 403);
     }
+
+    if ($point->foto) {
+        Storage::delete('public/images/' . $point->foto);
+    }
+
+    $point->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Data deleted successfully'
+    ]);
+}
 
     public function table(Request $request)
     {
@@ -390,7 +403,6 @@ class PointController extends Controller
     {
         $priceData = Points::priceDistribution();
 
-        // Format data untuk chart
         $labels = ['< 500k', '500k-1jt', '1jt-1.5jt', '1.5jt-2jt', '> 2jt'];
         $data = array_fill_keys($labels, 0);
 

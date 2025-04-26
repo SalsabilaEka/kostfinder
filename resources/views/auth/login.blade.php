@@ -1,9 +1,12 @@
-<div>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-color: #FAF6EF;
+            background-color: #F9EDE3;
             font-family: sans-serif;
         }
 
@@ -26,7 +29,8 @@
 
         .logo-container {
             text-align: center;
-            margin-bottom: 1.5rem; /* Memberikan jarak antara logo dan form */
+            margin-bottom: 1.5rem;
+            /* Memberikan jarak antara logo dan form */
         }
 
         .logo {
@@ -119,7 +123,121 @@
             text-align: center;
             margin-top: 1rem;
         }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 900px) {
+            .login-form {
+                padding: 1.5rem;
+                width: 100%;
+                max-width: 70%;
+            }
+
+            .logo {
+                max-width: 300px;
+            }
+
+            .form-input {
+                padding: 0.65rem;
+            }
+
+            .btn-submit {
+                padding: 0.65rem 1rem;
+                max-width: 100px;
+            }
+        }
+        @media (max-width: 768px) {
+            .login-form {
+                padding: 1.5rem;
+                width: 100%;
+                max-width: 70%;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+
+            .form-input {
+                padding: 0.65rem;
+            }
+
+            .btn-submit {
+                padding: 0.65rem 1rem;
+                max-width: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 0.5rem;
+            }
+
+            .login-form {
+                padding: 1.25rem;
+                border-radius: 0.75rem;
+                width: 100%;
+                max-width: 70%;
+            }
+
+            .logo-container {
+                margin-bottom: 1rem;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+
+            .form-label {
+                font-size: 0.9rem;
+            }
+
+            .form-input {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+
+            .checkbox-label {
+                font-size: 0.85rem;
+            }
+
+            .btn-submit {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+
+            .link {
+                font-size: 0.8rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .btn-submit {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .login-form {
+                padding: 1rem;
+            }
+
+            .logo {
+                max-width: 180px;
+            }
+
+            .form-input {
+                padding: 0.5rem;
+            }
+        }
     </style>
+</head>
+
+
+<body>
 
     <div class="main-container">
         <!-- Logo -->
@@ -171,4 +289,6 @@
             </div>
         </form>
     </div>
-</div>
+    </div>
+</body>
+</html>

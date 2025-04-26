@@ -1,117 +1,64 @@
 @extends('layouts.template')
-
-@section('content')
+@section('styles')
     <style>
-        body {
-            margin-top: 5%;
-        }
-
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-        }
-
         .page-container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            margin: 2%;
-
+            padding: 100px 20px 20px;
+            max-width: 100%;
+            margin: auto;
         }
-
-        .main-content {
-            flex: 1;
-            /* Penting agar isi utama mengisi ruang kosong */
-            padding: 20px;
-        }
-
-        .footer {
-            background-color: #efcdab;
-            text-align: center;
-            padding: 15px;
-        }
-
 
         .kos-container {
-            background-color: #ffffff;
+            background-color: #fff;
+            padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-            padding: 30px;
-            margin-top: 100px;
-            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
         }
 
         .kos-header {
-            margin-bottom: 30px;
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+            margin-bottom: 20px;
+            gap: 10px;
         }
 
         .kos-header h2 {
-            color: #2c3e50;
-            font-weight: 700;
-            margin: 0;
-            font-size: 1.8rem;
-        }
-
-        .footer {
-            background-color: #ECCDA0;
-            border-top: 5px solid #673E42;
-            padding: 20px 0;
-            text-align: center;
-            margin-top: auto;
-            /* Ini yang akan push footer ke bawah */
-        }
-
-        .footer p {
-            color: black;
-            font-size: 15px;
-            font-weight: 400;
+            font-size: 24px;
             margin: 0;
         }
 
         .search-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        #searchInput {
-            width: 100%;
-            padding: 12px 20px;
-            padding-left: 45px;
-            border-radius: 30px;
-            border: 1px solid #e0e0e0;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-            background-color: #f8f9fa;
-        }
-
-        #searchInput:focus {
-            outline: none;
-            border-color: #673E42;
-            box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.15);
-            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 5px 10px;
+            background-color: #f9f9f9;
+            flex: 1;
+            max-width: 300px;
         }
 
         .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #7a7a7a;
+            margin-right: 8px;
+            color: #888;
         }
 
+        #searchInput {
+            border: none;
+            background: transparent;
+            width: 100%;
+            outline: none;
+        }
+
+        /* Table */
         .table-container {
             overflow-x: auto;
             border-radius: 10px;
             margin-top: 25px;
             border: 1px solid #673E42;
-            /* Tambahkan border untuk container */
+            -webkit-overflow-scrolling: touch;
         }
 
         .table {
@@ -130,6 +77,7 @@
             top: 0;
             border-right: 1px solid #8D6E63;
             text-align: left;
+
         }
 
         .table thead th:first-child {
@@ -165,10 +113,46 @@
             background-color: #f8faff;
         }
 
-        .table td {
-            padding: 14px 16px;
-            vertical-align: middle;
-            border-top: 1px solid #673E42;
+        .badge-putri {
+            background-color: #f8e1ee;
+            color: #c2185b;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .badge-putra {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .badge-campur {
+            background-color: #ffa502;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .price-highlight {
+            font-weight: 600;
+            color: #2c3e50;
+            white-space: nowrap;
         }
 
         .btn-detail {
@@ -182,230 +166,112 @@
             border: none;
             text-decoration: none;
             display: inline-block;
+            white-space: nowrap;
         }
 
         .btn-detail:hover {
-            background-color: #3a5bd9;
+            background-color: #1e1213;
             transform: translateY(-1px);
             box-shadow: 0 4px 8px rgba(78, 115, 223, 0.2);
         }
 
-        .badge-putri {
-            background-color: #f8e1ee;
-            color: #c2185b;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .badge-putra {
-            background-color: #e3f2fd;
-            color: #1976d2;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .badge-campur {
-            background-color: #ffa502;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .price-highlight {
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
         .no-results {
             text-align: center;
-            padding: 30px;
-            color: #7f8c8d;
+            color: #999;
+            padding: 20px;
             font-style: italic;
         }
 
-
-
+        /* Pagination */
         .pagination-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            margin-top: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .page-size-selector select {
+            padding: 4px 8px;
+            border-radius: 6px;
         }
 
         .pagination-controls {
             display: flex;
-            gap: 10px;
-        }
-
-        .page-size-selector {
-            display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .page-size-selector select {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            background-color: #f8f9fa;
-        }
-
-        .page-info {
-            font-size: 0.9rem;
-            color: #555;
+            gap: 6px;
         }
 
         .page-btn {
-            padding: 8px 15px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
             border-radius: 6px;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
+            background-color: #f5f5f5;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .page-btn:hover:not(:disabled) {
-            background-color: #673E42;
-            color: white;
-            border-color: #673E42;
-        }
-
-        .page-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         .page-btn.active {
             background-color: #673E42;
             color: white;
-            border-color: #673E42;
         }
 
-        @media (max-width: 768px) {
-            .kos-container {
-                padding: 20px;
-            }
+        .page-info {
+            font-size: 13px;
+            color: #666;
+        }
 
+        /* Responsif */
+        @media screen and (max-width: 768px) {
             .kos-header {
                 flex-direction: column;
                 align-items: flex-start;
             }
 
             .search-container {
-                max-width: 100%;
-                margin-top: 15px;
+                width: 100%;
             }
 
-            .table td {
-                padding: 12px 10px;
+            .table-container {
+                overflow-x: auto;
             }
 
             .pagination-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .pagination-controls {
+                flex-wrap: wrap;
+                flex-direction: row;
+                align-items: center;
                 justify-content: center;
-                order: 2;
-            }
-
-            .page-size-selector {
-                justify-content: center;
-                order: 1;
+                gap: 8px;
             }
 
             .page-info {
+                width: 100%;
                 text-align: center;
-                order: 3;
                 margin-top: 10px;
             }
         }
-        @media (max-width: 480px) {
-            .kos-container {
-                padding: 20px;
+
+        @media screen and (max-width: 576px) {
+            .page-container {
+                padding-top: 120px;
             }
 
-            .pagination-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-
-            .kos-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .search-container {
-                max-width: 100%;
-                margin-top: 15px;
-            }
-
+            .table th,
             .table td {
-                padding: 12px 10px;
+                font-size: 13px;
+                padding: 8px;
             }
 
-            .pagination-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 25px;
-    gap: 15px;
-    flex-wrap: nowrap; /* Pastikan tidak wrap ke baris baru */
-    width: 100%;
-    overflow-x: auto; /* Untuk mobile jika konten terlalu panjang */
-    padding-bottom: 5px; /* Ruang untuk scrollbar */
-}
-
-.page-size-selector {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap; /* Teks tidak wrap */
-    flex-shrink: 0; /* Tidak menyusut */
-}
-
-.page-size-selector select {
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    background-color: #f8f9fa;
-    cursor: pointer;
-}
-
-.pagination-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: nowrap;
-}
-
-.page-info {
-    white-space: nowrap;
-    flex-shrink: 0;
-    margin: 0 10px;
-}
+            .btn-detail {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
         }
     </style>
+@endsection
+
+
+@section('content')
 
     <body>
         <div class="page-container">
@@ -489,7 +355,9 @@
             </div>
         </div>
     </body>
+@endsection
 
+@section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('searchInput');
@@ -508,10 +376,8 @@
             let pageSize = 10;
             let totalPages = 1;
 
-            // Inisialisasi
             initPagination();
 
-            // Event listeners
             searchInput.addEventListener('input', performSearch);
             pageSizeSelect.addEventListener('change', function() {
                 pageSize = parseInt(this.value);
@@ -552,13 +418,11 @@
                 }
             });
 
-            // Fungsi untuk inisialisasi pagination
             function initPagination() {
                 updatePagination();
                 renderTable();
             }
 
-            // Fungsi untuk melakukan pencarian
             function performSearch() {
                 const searchTerm = searchInput.value.toLowerCase();
                 filteredData = originalData.filter(kos =>
@@ -570,93 +434,117 @@
                 renderTable();
             }
 
-            // Fungsi untuk update pagination controls
             function updatePagination() {
                 totalPages = Math.ceil(filteredData.length / pageSize);
 
-                // Update tombol navigasi
                 firstPageBtn.disabled = currentPage === 1;
                 prevPageBtn.disabled = currentPage === 1;
                 nextPageBtn.disabled = currentPage === totalPages;
                 lastPageBtn.disabled = currentPage === totalPages;
 
-                // Update page numbers
                 renderPageNumbers();
 
-                // Update info halaman
                 const startItem = (currentPage - 1) * pageSize + 1;
                 const endItem = Math.min(currentPage * pageSize, filteredData.length);
                 pageInfo.textContent =
                     `Menampilkan ${startItem} sampai ${endItem} dari ${filteredData.length} data`;
             }
 
-            // Fungsi untuk render nomor halaman
             function renderPageNumbers() {
                 pageNumbers.innerHTML = '';
+                const isMobile = window.innerWidth < 576;
 
-                const maxVisiblePages = 5;
-                let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-                let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+                if (isMobile) {
+                    const pagesToShow = new Set();
 
-                if (endPage - startPage + 1 < maxVisiblePages) {
-                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
-                }
-
-                // Tombol halaman pertama jika diperlukan
-                if (startPage > 1) {
-                    const pageBtn = document.createElement('button');
-                    pageBtn.textContent = '1';
-                    pageBtn.className = 'page-btn';
-                    pageBtn.addEventListener('click', () => {
-                        currentPage = 1;
-                        updatePagination();
-                        renderTable();
-                    });
-                    pageNumbers.appendChild(pageBtn);
-
-                    if (startPage > 2) {
-                        const ellipsis = document.createElement('span');
-                        ellipsis.textContent = '...';
-                        ellipsis.style.padding = '0 10px';
-                        pageNumbers.appendChild(ellipsis);
-                    }
-                }
-
-                // Tombol halaman
-                for (let i = startPage; i <= endPage; i++) {
-                    const pageBtn = document.createElement('button');
-                    pageBtn.textContent = i;
-                    pageBtn.className = i === currentPage ? 'page-btn active' : 'page-btn';
-                    pageBtn.addEventListener('click', () => {
-                        currentPage = i;
-                        updatePagination();
-                        renderTable();
-                    });
-                    pageNumbers.appendChild(pageBtn);
-                }
-
-                // Tombol halaman terakhir jika diperlukan
-                if (endPage < totalPages) {
-                    if (endPage < totalPages - 1) {
-                        const ellipsis = document.createElement('span');
-                        ellipsis.textContent = '...';
-                        ellipsis.style.padding = '0 10px';
-                        pageNumbers.appendChild(ellipsis);
+                    if (currentPage > 1) {
+                        pagesToShow.add(currentPage - 1);
                     }
 
-                    const pageBtn = document.createElement('button');
-                    pageBtn.textContent = totalPages;
-                    pageBtn.className = 'page-btn';
-                    pageBtn.addEventListener('click', () => {
-                        currentPage = totalPages;
-                        updatePagination();
-                        renderTable();
+                    pagesToShow.add(currentPage);
+
+                    if (currentPage < totalPages) {
+                        pagesToShow.add(currentPage + 1);
+                    }
+
+                    const visiblePages = Array.from(pagesToShow).sort((a, b) => a - b);
+
+                    visiblePages.forEach(page => {
+                        const pageBtn = document.createElement('button');
+                        pageBtn.textContent = page;
+                        pageBtn.className = page === currentPage ? 'page-btn active' : 'page-btn';
+                        pageBtn.addEventListener('click', () => {
+                            currentPage = page;
+                            updatePagination();
+                            renderTable();
+                        });
+                        pageNumbers.appendChild(pageBtn);
                     });
-                    pageNumbers.appendChild(pageBtn);
+                } else {
+                    const maxVisiblePages = 5;
+                    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                    if (endPage - startPage + 1 < maxVisiblePages) {
+                        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                    }
+
+                    if (startPage > 1) {
+                        const pageBtn = document.createElement('button');
+                        pageBtn.textContent = '1';
+                        pageBtn.className = 'page-btn';
+                        pageBtn.addEventListener('click', () => {
+                            currentPage = 1;
+                            updatePagination();
+                            renderTable();
+                        });
+                        pageNumbers.appendChild(pageBtn);
+
+                        if (startPage > 2) {
+                            const ellipsis = document.createElement('span');
+                            ellipsis.textContent = '...';
+                            ellipsis.style.padding = '0 5px';
+                            ellipsis.style.display = 'flex';
+                            ellipsis.style.alignItems = 'center';
+                            pageNumbers.appendChild(ellipsis);
+                        }
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        const pageBtn = document.createElement('button');
+                        pageBtn.textContent = i;
+                        pageBtn.className = i === currentPage ? 'page-btn active' : 'page-btn';
+                        pageBtn.addEventListener('click', () => {
+                            currentPage = i;
+                            updatePagination();
+                            renderTable();
+                        });
+                        pageNumbers.appendChild(pageBtn);
+                    }
+
+                    if (endPage < totalPages) {
+                        if (endPage < totalPages - 1) {
+                            const ellipsis = document.createElement('span');
+                            ellipsis.textContent = '...';
+                            ellipsis.style.padding = '0 5px';
+                            ellipsis.style.display = 'flex';
+                            ellipsis.style.alignItems = 'center';
+                            pageNumbers.appendChild(ellipsis);
+                        }
+
+                        const pageBtn = document.createElement('button');
+                        pageBtn.textContent = totalPages;
+                        pageBtn.className = 'page-btn';
+                        pageBtn.addEventListener('click', () => {
+                            currentPage = totalPages;
+                            updatePagination();
+                            renderTable();
+                        });
+                        pageNumbers.appendChild(pageBtn);
+                    }
                 }
             }
 
-            // Fungsi untuk merender tabel
             function renderTable() {
                 const startIndex = (currentPage - 1) * pageSize;
                 const endIndex = Math.min(startIndex + pageSize, filteredData.length);
@@ -677,7 +565,6 @@
                     const row = document.createElement('tr');
                     const itemNumber = startIndex + index + 1;
 
-                    // Determine badge class and icon based on jenis
                     let badgeClass = 'badge-campur';
                     let icon = '';
 
@@ -689,23 +576,26 @@
                         icon = '<i class="fas fa-male"></i> ';
                     }
 
-                    // Format price with thousand separators
                     const formattedPrice = kos.harga.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
                     row.innerHTML = `
-        <td>${itemNumber}</td>
-        <td>${kos.nama}</td>
-        <td>${kos.alamat}</td>
-        <td><span class="${badgeClass}">${icon}${kos.jenis}</span></td>
-        <td class="price-highlight">Rp ${formattedPrice}</td>
-        <td>
-            <a href="/detail/${kos.id}" class="btn-detail">Detail</a>
-        </td>
-    `;
+                    <td>${itemNumber}</td>
+                    <td>${kos.nama}</td>
+                    <td>${kos.alamat}</td>
+                    <td><span class="${badgeClass}">${icon}${kos.jenis}</span></td>
+                    <td class="price-highlight">Rp ${formattedPrice}</td>
+                    <td>
+                        <a href="/detail/${kos.id}" class="btn-detail">Detail</a>
+                    </td>
+                `;
 
                     kosTableBody.appendChild(row);
                 });
             }
+
+            window.addEventListener('resize', function() {
+                renderPageNumbers();
+            });
         });
     </script>
 @endsection

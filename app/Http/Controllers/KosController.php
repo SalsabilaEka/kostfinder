@@ -41,7 +41,6 @@ class KosController extends Controller
     {
         $kos = Points::findOrFail($id);
 
-        // Format fasilitas
         $fasilitas = [];
         if ($kos->ac) $fasilitas[] = ['icon' => 'fa-snowflake', 'label' => 'AC'];
         if ($kos->kasur) $fasilitas[] = ['icon' => 'fa-bed', 'label' => 'Kasur'];
@@ -59,7 +58,6 @@ class KosController extends Controller
         if ($kos->listrik) $fasilitas[] = ['icon' => 'fa-bolt', 'label' => 'Listrik'];
         if ($kos->air) $fasilitas[] = ['icon' => 'fa-tint', 'label' => 'Air'];
 
-        // Format pembayaran
         $pembayaran = [];
         if ($kos->tunai) $pembayaran[] = 'Tunai';
         if ($kos->transfer) $pembayaran[] = 'Transfer';

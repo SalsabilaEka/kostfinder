@@ -34,8 +34,6 @@ class PointControllerHalte extends Controller
             'type' => 'FeatureCollection',
             'features' => $feature,
         ]);
-
-        //dd($points);
     }
 
     /**

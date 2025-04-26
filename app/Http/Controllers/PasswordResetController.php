@@ -28,21 +28,21 @@ class ResetPasswordController extends Controller
     }
 
     public function updateDirect(Request $request)
-{
-    $request->validate([
-        'email' => 'required|email|exists:users,email',
-        'password' => 'required|confirmed|min:8',
-    ]);
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|confirmed|min:8',
+        ]);
 
-    $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
-    if ($user) {
-        $user->password = Hash::make($request->password);
-        $user->save();
+        if ($user) {
+            $user->password = Hash::make($request->password);
+            $user->save();
 
-        return back()->with('status', 'Password has been changed successfully!');
+            return back()->with('status', 'Password has been changed successfully!');
+        }
+
+        return back()->withErrors(['email' => 'User not found']);
     }
-
-    return back()->withErrors(['email' => 'User not found']);
-}
 }

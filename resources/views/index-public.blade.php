@@ -4,30 +4,10 @@
     <link href="https://unpkg.com/maplibre-gl@2.1.9/dist/maplibre-gl.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- Favicons -->
-    <link href="{{ asset('asset/img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('asset/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-
-    <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
     <style>
         :root {
             --default-font: "Poppins", sans-serif;
             --heading-font: "Poppins", sans-serif;
-            --nav-font: "Poppins", sans-serif;
             --brand-font: "Righteous", sans-serif;
             --background-color: #F9EDE3;
             --default-color: #ffffff;
@@ -35,595 +15,37 @@
             --accent-color: #673E42;
             --surface-color: #6B4145;
             --contrast-color: #ffffff;
-            --nav-color: #6B4145;
-            --nav-hover-color: #673E42;
             --text-color: #4F5153;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: var(--default-font);
-            color: #4F5153;
-            background-color: var(--background-color);
-            margin-top: 80px;
-            width: 100%;
-            height: auto;
+            margin: 0;
             padding: 0;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* Header Styles */
-        .header {
-            background-color: #E6C99E;
-            border-bottom: 5px solid #673E42;
-            padding: 15px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
+        #main-content {
+            flex: 1;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
         }
 
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 1200px;
-            padding: 0 20px;
+        .content-wrapper {
+            flex: 1;
             position: relative;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
+        #map {
             position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .logo img {
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .logo h1 {
-            font-family: var(--brand-font);
-            color: #673E42;
-            font-size: 32px;
-            margin: 0;
-        }
-
-        .navmenu {
-            display: flex;
-            align-items: center;
-        }
-
-        .navmenu ul {
-            display: flex;
-            list-style: none;
-            margin-left: 115px;
-            padding: 0;
-            gap: 28px;
-        }
-
-        .navmenu la {
-            display: flex;
-            list-style: none;
-            margin-left: 300px;
-            padding: 0;
-            gap: 25px;
-        }
-
-        .navmenu a {
-            color: var(--nav-color);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 20px;
-            transition: color 0.3s;
-        }
-
-        .navmenu a:hover,
-        .navmenu a.active {
-            color: var(--nav-hover-color);
-            font-weight: 700;
-        }
-
-        .btn-getstarted {
-            background-color: transparent;
-            color: var(--nav-color);
-            padding: 8px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 20px;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .btn-getstarted:hover {
-            color: var(--nav-hover-color);
-        }
-
-        /* Mobile Menu Toggle */
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: var(--nav-color);
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        /* Features Section */
-        .features-2 {
-            padding: 150px 0 100px;
-            position: relative;
-            background-color: var(--background-color);
-        }
-
-        .features-2 .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .features-2 .row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background-color: var(--accent-color);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-        }
-
-        .feature-icon i {
-            font-size: 1.5rem;
-        }
-
-        .feature-icon:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .feature-content {
-            max-width: 280px;
-        }
-
-        .feature-content h3 {
-            font-weight: 700;
-            color: var(--surface-color);
-            margin-bottom: 10px;
-            font-size: 18px;
-            line-height: 1.3;
-        }
-
-        .feature-content p {
-            color: var(--text-color);
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 0;
-        }
-
-        .phone-mockup {
-            text-align: center;
-            padding: 0 20px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .phone-mockup img {
-            max-height: 500px;
-            width: auto;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        /* Layout for feature columns */
-        .col-lg-4 {
-            flex: 0 0 33.333333%;
-            max-width: 33.333333%;
-            padding: 0 15px;
-            gap: 2rem;
-        }
-
-        /* Animation */
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
-
-            100% {
-                transform: translateY(0px);
-            }
-        }
-
-        /* Feature item alignment */
-        .left-features {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            padding-right: 40px;
-        }
-
-        .right-features {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-left: 40px;
-        }
-
-        .feature-item.text-end {
-            text-align: right;
-        }
-
-        .feature-item.text-start {
-            text-align: left;
-        }
-
-        /* Spacing between elements */
-        .d-flex.gap-4 {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: #ECCDA0 !important;
-            border-top: 5px solid #673E42 !important;
-            padding: 20px 0 !important;
-            text-align: center !important;
-            position: fixed !important;
-            bottom: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            width: 100% !important;
-            z-index: 1000 !important;
-        }
-
-        /* Tambahkan padding bottom ke main content agar tidak tertutup footer */
-        .main {
-            padding-bottom: 100px !important;
-        }
-
-        .footer p {
-            color: black;
-            font-size: 15px;
-            font-weight: 400;
-            margin: 0;
-        }
-
-        /* Mobile Navigation */
-        .mobile-nav {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 80%;
-            max-width: 400px;
-            height: 100vh;
-            background-color: #E6C99E;
-            border-left: 5px solid #673E42;
-            z-index: 1000;
-            transition: right 0.3s ease;
-            padding: 80px 20px 20px;
-            overflow-y: auto;
-        }
-
-        .mobile-nav.active {
-            right: 0;
-        }
-
-        .mobile-nav ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .mobile-nav li {
-            margin-bottom: 20px;
-        }
-
-        .mobile-nav a {
-            color: var(--nav-color);
-            text-decoration: none;
-            font-size: 20px;
-            font-weight: 500;
-        }
-
-        .mobile-nav a:hover {
-            color: var(--nav-hover-color);
-            font-weight: 700;
-        }
-
-        .mobile-nav .btn-getstarted {
-            display: inline-block;
-            margin-top: 20px;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
+            top: 75px;
+            bottom: 0;
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
         }
-
-        .overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-
-
-        @media (max-width: 1230px) {
-            .header-container {
-                justify-content: flex-end;
-            }
-
-            .logo {
-                position: static;
-                transform: none;
-                margin-right: auto;
-            }
-
-            .navmenu {
-                display: none;
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            .features-2 {
-                padding: 120px 0 80px;
-            }
-
-            .col-lg-4 {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-
-            .phone-mockup {
-                order: -1;
-                margin-bottom: 40px;
-                max-width: 300px;
-            }
-
-            .feature-item {
-                margin-bottom: 30px;
-                max-width: 500px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .feature-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 20px;
-            }
-
-            .feature-content h3 {
-                font-size: 16px;
-            }
-
-            .left-features,
-            .right-features {
-                align-items: center;
-                padding: 0;
-            }
-
-            .feature-item.text-end,
-            .feature-item.text-start {
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .features-2 {
-                padding: 100px 0 60px;
-            }
-
-            .feature-item {
-                margin-bottom: 25px;
-            }
-
-            .feature-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 18px;
-            }
-
-            .feature-content h3 {
-                font-size: 15px;
-            }
-
-            .feature-content p {
-                font-size: 13px;
-            }
-
-            .phone-mockup img {
-                max-height: 350px;
-            }
-
-            .footer p {
-                font-size: 13px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo h1 {
-                font-size: 24px;
-            }
-
-            .logo img {
-                height: 30px;
-            }
-
-            .footer p {
-                font-size: 12px;
-            }
-        }
-/* Tetap pertahankan styling utama #map */
-#map {
-    height: calc(100vh - 180px); /* Menyesuaikan tinggi dengan header dan footer */
-    width: 100%;
-    margin: 0;
-    position: relative;
-}
-
-/* Responsif untuk berbagai ukuran layar */
-@media (max-width: 1500px) {
-    #map {
-        height: calc(100vh - 160px);
-    }
-}
-
-@media (max-width: 1024px) {
-    #map {
-        height: calc(100vh - 150px);
-    }
-}
-
-/* Responsif untuk tablet kecil (layar 768px ke bawah) */
-@media (max-width: 768px) {
-    #map {
-        height: calc(100vh - 140px);
-    }
-
-    .header-container {
-        padding: 0 15px;
-    }
-
-    .logo h1 {
-        font-size: 24px;
-    }
-
-    .logo img {
-        height: 35px;
-    }
-}
-
-/* Responsif untuk mobile (layar 480px ke bawah) */
-@media (max-width: 480px) {
-    #map {
-        height: calc(100vh - 130px);
-    }
-
-    .logo h1 {
-        font-size: 20px;
-    }
-
-    .logo img {
-        height: 30px;
-    }
-}
-
-/* Penyesuaian untuk kontrol peta di mobile */
-@media (max-width: 768px) {
-    #map-controls {
-        display: none;
-        position: fixed;
-        bottom: 80px;
-        left: 10px;
-        right: 10px;
-        top: auto;
-        width: auto;
-        max-width: 100%;
-        z-index: 1001;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        padding: 10px;
-    }
-
-    #map-controls.mobile-active {
-        display: flex;
-    }
-
-    .control-group {
-        width: 45%;
-        margin-bottom: 10px;
-    }
-
-    #toggle-tools {
-        display: flex !important;
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        z-index: 1001;
-        background: #6C4F51;
-        color: white;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        justify-content: center;
-        align-items: center;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-}
-
-/* Penyesuaian untuk desktop */
-@media (min-width: 769px) {
-    #map-controls {
-        position: absolute;
-        top: 100px;
-        left: 10px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    #toggle-tools {
-        display: none !important;
-    }
-
-    #layer-controls {
-        position: absolute;
-        top: 100px;
-        right: 10px;
-        margin-top: 100px;
-    }
-}
 
         #map-controls {
             position: absolute;
-            top: 100px;
             left: 10px;
             background: white;
             padding: 8px;
@@ -633,6 +55,8 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            margin-top: 100px;
+            width: 140px;
         }
 
         .control-group {
@@ -1078,11 +502,22 @@
             border-radius: 8px;
             width: 700px;
             max-width: 95%;
-            max-height: 90vh;
+            max-height: 80vh;
             overflow-y: auto;
         }
 
         @media (max-width: 600px) {
+            .filter-modal-content {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .filter-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
             .filter-modal-content {
                 width: 100%;
                 padding: 15px;
@@ -1176,30 +611,56 @@
             z-index: 1000;
             font-family: sans-serif;
             margin-top: 100px;
+            transition: all 0.3s ease;
         }
 
-        .layer-controls-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: #6C4F51;
-            margin-bottom: 5px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 3px;
-        }
-
-        .layer-controls-options {
+        #layer-controls.mobile-collapsed {
+            top: 30%;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            padding: 0;
             display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .layer-controls-options label {
-            display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 5px;
             cursor: pointer;
-            font-size: 13px;
         }
+
+        #layer-controls.mobile-collapsed .layer-controls-title,
+        #layer-controls.mobile-collapsed .layer-controls-options {
+            display: none;
+        }
+
+        #layer-controls.mobile-collapsed::before {
+            content: '\f0c9';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 18px;
+            color: #6C4F51;
+        }
+
+        #layer-controls-toggle {
+            display: none;
+            position: absolute;
+            top: 15%;
+            right: 10px;
+            z-index: 1001;
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            border: none;
+        }
+
+        #layer-controls-toggle i {
+            color: #6C4F51;
+            font-size: 18px;
+        }
+
 
         .toast-notification {
             position: fixed;
@@ -1246,52 +707,106 @@
             font-size: 18px;
         }
 
+        .layer-controls-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #6C4F51;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 3px;
+        }
+
+        .layer-controls-options {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .layer-controls-options label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
         /* Mobile controls */
         @media (max-width: 768px) {
-
             #layer-controls {
-                z-index: 999;
-                /* Pastikan di bawah header (z-index: 1000) */
-                overflow-y: auto;
+                position: fixed;
+                right: 10px;
+                top: 30%;
+                left: auto;
+                margin-top: 0;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+
+            #layer-controls .layer-controls-title,
+            #layer-controls .layer-controls-options {
+                display: none;
+            }
+
+            #layer-controls::before {
+                content: '\f0c9';
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                font-size: 18px;
+                color: #6C4F51;
+            }
+
+            #layer-controls.mobile-expanded {
+                width: 150px;
+                height: auto;
+                border-radius: 5px;
+                padding: 8px;
+                display: block;
+            }
+
+            #layer-controls.mobile-expanded::before {
+                display: none;
+            }
+
+            #layer-controls.mobile-expanded .layer-controls-title,
+            #layer-controls.mobile-expanded .layer-controls-options {
+                display: block;
             }
 
             #map-controls {
                 display: none;
                 margin-top: 5%;
+                max-width: 30%
             }
 
             #route-controls {
                 position: fixed !important;
                 bottom: 80px !important;
-                /* Memberi jarak dari bawah */
                 left: 10px !important;
                 right: 10px !important;
                 top: auto !important;
                 width: calc(100% - 40px) !important;
-                /* Mengurangi lebar */
                 max-width: 340px !important;
-                /* Lebar maksimum */
                 margin: 0 auto !important;
-                /* Posisi tengah */
                 max-height: 60vh !important;
-                /* Tinggi maksimum */
                 margin-top: 0 !important;
                 border-radius: 12px !important;
-                /* Sudut lebih melengkung */
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
-                /* Shadow lebih halus */
             }
 
             #route-controls.active {
                 display: flex;
                 flex-direction: column;
                 padding: 15px !important;
-                /* Padding dalam */
             }
 
             .route-instructions-container {
                 max-height: 235px;
-                /* Sesuaikan dengan tinggi container */
                 height: auto;
                 overflow-y: auto;
                 padding: 10px !important;
@@ -1320,9 +835,8 @@
             #toggle-route {
                 position: fixed;
                 bottom: 15% !important;
-                /* Posisi lebih rendah */
                 right: 10px;
-                z-index: 999 !important;
+                z-index: 9999 !important;
                 background: white;
                 border-radius: 50%;
                 width: 40px;
@@ -1335,7 +849,7 @@
             }
 
             #map-controls.mobile-active {
-                display: flex !important;
+                display: block;
                 position: absolute;
                 top: 110px;
                 left: 10px;
@@ -1349,6 +863,161 @@
             .mobile-control-button {
                 display: none !important;
             }
+        }
+
+        .map-legend {
+            font-family: Arial, sans-serif;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+            max-width: 200px;
+        }
+
+        .map-legend h4 {
+            margin: 0 0 8px 0;
+            font-size: 11px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .legend-gradient {
+            height: 15px;
+            width: 100%;
+            margin-bottom: 5px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .legend-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #555;
+        }
+
+
+        #layer-controls-mobile {
+            position: absolute;
+            top: 30%;
+            right: 20px;
+            width: 200px;
+            z-index: 1000;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .mobile-controls-toggle {
+            width: 100%;
+            padding: 12px 16px;
+            background: #6C4F51;
+            color: white;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .toggle-icon {
+            font-size: 14px;
+            transition: transform 0.3s;
+        }
+
+        .mobile-controls-content {
+            padding: 12px 16px;
+        }
+
+        .mobile-controls-options label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .mobile-controls-options label input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .map-legend {
+            margin-top: 12px;
+        }
+
+        .map-legend h4 {
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: #555;
+        }
+
+        .legend-gradient {
+            height: 10px;
+            border-radius: 5px;
+            margin-bottom: 4px;
+        }
+
+        .legend-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .mobile-controls-content[style*="display: block"] {
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #layer-controls.mobile-collapsed .layer-controls-title,
+        #layer-controls.mobile-collapsed .layer-controls-options {
+            display: none;
+        }
+
+        #layer-controls.mobile-collapsed::before {
+            content: '\f0c9';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 18px;
+            color: #6C4F51;
+        }
+
+        #layer-controls-toggle {
+            display: none;
+            position: absolute;
+            top: 15%;
+            right: 10px;
+            z-index: 1001;
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            border: none;
+        }
+
+        #layer-controls-toggle i {
+            color: #6C4F51;
+            font-size: 18px;
         }
     </style>
 @endsection
@@ -1402,124 +1071,142 @@
             </div>
 
             <div id="layer-controls">
-                <div class="layer-controls-title">Informasi Titik Lokasi</div>
+                <div class="layer-controls-title">Legenda</div>
                 <div class="layer-controls-options">
-                    <label>
-                        <input type="checkbox" id="toggle-kos-clusters" style="accent-color: #6C4F51;" checked> Titik Kos
-                    </label>
-                    <label>
-                        <input type="checkbox" id="toggle-halte-points" style="accent-color: #6C4F51;" checked> Titik Halte
-                    </label>
-                    <label>
-                        <input type="checkbox" id="toggle-univ-points" style="accent-color: #6C4F51;" checked> Titik
-                        Fakultas
-                    </label>
-                </div>
-            </div>
+                    <label><input type="checkbox" id="toggle-kos-clusters" style="accent-color: #6C4F51;" checked> Titik
+                        Kos</label>
+                    <label><input type="checkbox" id="toggle-halte-points" style="accent-color: #6C4F51;"> Titik
+                        Halte</label>
+                    <label><input type="checkbox" id="toggle-univ-points" style="accent-color: #6C4F51;"> Titik
+                        Fakultas</label>
+                    <label><input type="checkbox" id="toggle-ndbi" style="accent-color: #6C4F51;"> Indeks Kepadatan
+                        Bangunan</label>
 
-            {{-- Buffer Modal --}}
-            <div id="buffer-modal" class="buffer-modal">
-                <div class="buffer-modal-content">
-                    <h3 style="text-align: center;">Pilih Radius Buffer</h3>
-                    <p style="text-align: center; font-size:14px;">Pilih radius untuk menentukan seberapa jauh area di sekitar titik yang ingin Anda lihat.</p>
-                    <div class="buffer-options">
-                        <div class="buffer-option" data-distance="0.5">500 Meter</div>
-                        <div class="buffer-option" data-distance="1">1 Kilometer</div>
-                        <div class="buffer-option" data-distance="2">2 Kilometer</div>
-                    </div>
-                    <div class="buffer-modal-buttons">
-                        <button class="cancel">Batal</button>
-                        <button class="apply">Terapkan</button>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Filter Modal --}}
-            <div id="filter-modal" class="filter-modal">
-                <div class="filter-modal-content">
-                    <h3>Filter Kos</h3>
-
-                    <div class="filter-section">
-                        <label>Jenis Kos:</label>
-                        <div class="filter-options">
-                            <label><input type="checkbox" name="kos-type" value="putri" checked> Putri</label>
-                            <label><input type="checkbox" name="kos-type" value="putra" checked> Putra</label>
-                            <label><input type="checkbox" name="kos-type" value="campuran" checked> Campuran</label>
+                    <div class="map-legend">
+                        <h4>Skala Kepadatan</h4>
+                        <div class="legend-gradient"
+                            style="background: linear-gradient(to right, #E8F5E9, #A5D6A7, #FFE082, #EF9A9A);"></div>
+                        <div class="legend-labels">
+                            <span>Rendah</span>
+                            <span>Tinggi</span>
                         </div>
                     </div>
 
-                    <div class="filter-section">
-                        <label>Harga per Bulan:</label>
-                        <div class="price-range">
-                            <input type="range" id="price-slider" min="0" max="5000000" step="50000"
-                                value="5000000">
-                            <div class="price-labels">
-                                <span>Rp0</span>
-                                <span id="max-price-display">Rp5.000.000</span>
-                            </div>
+                    <label><input type="checkbox" id="toggle-lst" style="accent-color: #6C4F51;"> Suhu Permukaan</label>
+
+                    <div class="map-legend">
+                        <h4>Suhu Permukaan Tanah</h4>
+                        <div class="legend-gradient"
+                            style="background: linear-gradient(to right, #c0e6ff, #78aeff, #FFE082, #EF9A9A);"></div>
+                        <div class="legend-labels">
+                            <span>Rendah</span>
+                            <span>Tinggi</span>
                         </div>
                     </div>
-
-                    <div class="filter-section">
-                        <label>Fasilitas:</label>
-                        <div class="filter-options">
-                            <label><input type="checkbox" name="facility" value="kasur"> Kasur</label>
-                            <label><input type="checkbox" name="facility" value="mejakursi"> Meja Kursi Belajar</label>
-                            <label><input type="checkbox" name="facility" value="lemari"> Lemari</label>
-                            <label><input type="checkbox" name="facility" value="ac"> AC</label>
-                            <label><input type="checkbox" name="facility" value="kamarmandi"> Kamar Mandi Dalam</label>
-                            <label><input type="checkbox" name="facility" value="wifi"> WiFi</label>
-                            <label><input type="checkbox" name="facility" value="dapur"> Dapur</label>
-                            <label><input type="checkbox" name="facility" value="kulkas"> Kulkas</label>
-                            <label><input type="checkbox" name="facility" value="listrik"> Listrik</label>
-                            <label><input type="checkbox" name="facility" value="air"> Air</label>
-                            <label><input type="checkbox" name="facility" value="parkirmotor"> Parkir Motor</label>
-                            <label><input type="checkbox" name="facility" value="parkirmobil"> Parkir Mobil</label>
-                            <label><input type="checkbox" name="facility" value="keamanan"> Keamanan 24 Jam</label>
-                        </div>
-                    </div>
-
-                    <div class="filter-modal-buttons">
-                        <button class="cancel">Batal</button>
-                        <button class="apply">Terapkan</button>
-                    </div>
                 </div>
-            </div>
-
-            {{-- Route Info --}}
-            <div id="route-controls" class="route-controls">
-                <div class="route-info">
-                    Jarak: <span id="route-distance">-</span>
-                </div>
-                <div class="route-info">
-                    Durasi: <span id="route-duration">-</span>
-                </div>
-                <div id="route-instructions"></div>
-                <button id="clear-route">Hapus Rute</button>
-            </div>
-
-            {{-- Loading --}}
-            <div id="loading-indicator" class="loading-indicator">
-                <div class="loading-spinner"></div>
-                <div id="loading-text">Memuat...</div>
-            </div>
-
-            {{-- Mobile Control Buttons --}}
-            <div id="toggle-tools" class="mobile-control-button" title="Tools">
-                <i class="fas fa-tools"></i>
-            </div>
-
-            <!-- Tambahkan di bagian bawah sebelum penutup section content -->
-            <div id="toggle-route" class="mobile-control-button" title="Route Info">
-                <i class="fas fa-route"></i>
             </div>
         </div>
 
+        {{-- Buffer Modal --}}
+        <div id="buffer-modal" class="buffer-modal">
+            <div class="buffer-modal-content">
+                <h3 style="text-align: center;">Pilih Radius Buffer</h3>
+                <p style="text-align: center; font-size:14px;">Pilih radius untuk menentukan seberapa jauh area di
+                    sekitar titik yang ingin Anda lihat.</p>
+                <div class="buffer-options">
+                    <div class="buffer-option" data-distance="0.5">500 Meter</div>
+                    <div class="buffer-option" data-distance="1">1 Kilometer</div>
+                    <div class="buffer-option" data-distance="2">2 Kilometer</div>
+                </div>
+                <div class="buffer-modal-buttons">
+                    <button class="cancel">Batal</button>
+                    <button class="apply">Terapkan</button>
+                </div>
+            </div>
+        </div>
+
+        {{-- Filter Modal --}}
+        <div id="filter-modal" class="filter-modal">
+            <div class="filter-modal-content">
+                <h3>Filter Kos</h3>
+
+                <div class="filter-section">
+                    <label>Jenis Kos:</label>
+                    <div class="filter-options">
+                        <label><input type="checkbox" name="kos-type" value="putri" checked> Putri</label>
+                        <label><input type="checkbox" name="kos-type" value="putra" checked> Putra</label>
+                        <label><input type="checkbox" name="kos-type" value="campuran" checked> Campuran</label>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label>Harga per Bulan:</label>
+                    <div class="price-range">
+                        <input type="range" id="price-slider" min="0" max="5000000" step="50000"
+                            value="5000000">
+                        <div class="price-labels">
+                            <span>Rp0</span>
+                            <span id="max-price-display">Rp5.000.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <label>Fasilitas:</label>
+                    <div class="filter-options">
+                        <label><input type="checkbox" name="facility" value="kasur"> Kasur</label>
+                        <label><input type="checkbox" name="facility" value="mejakursi"> Meja Kursi Belajar</label>
+                        <label><input type="checkbox" name="facility" value="lemari"> Lemari</label>
+                        <label><input type="checkbox" name="facility" value="ac"> AC</label>
+                        <label><input type="checkbox" name="facility" value="kamarmandi"> Kamar Mandi Dalam</label>
+                        <label><input type="checkbox" name="facility" value="wifi"> WiFi</label>
+                        <label><input type="checkbox" name="facility" value="dapur"> Dapur</label>
+                        <label><input type="checkbox" name="facility" value="kulkas"> Kulkas</label>
+                        <label><input type="checkbox" name="facility" value="listrik"> Listrik</label>
+                        <label><input type="checkbox" name="facility" value="air"> Air</label>
+                        <label><input type="checkbox" name="facility" value="parkirmotor"> Parkir Motor</label>
+                        <label><input type="checkbox" name="facility" value="parkirmobil"> Parkir Mobil</label>
+                        <label><input type="checkbox" name="facility" value="keamanan"> Keamanan 24 Jam</label>
+                    </div>
+                </div>
+
+                <div class="filter-modal-buttons">
+                    <button class="cancel">Batal</button>
+                    <button class="apply">Terapkan</button>
+                </div>
+            </div>
+        </div>
+
+        {{-- Route Info --}}
+        <div id="route-controls" class="route-controls">
+            <div class="route-info">
+                Jarak: <span id="route-distance">-</span>
+            </div>
+            <div class="route-info">
+                Durasi: <span id="route-duration">-</span>
+            </div>
+            <div id="route-instructions"></div>
+            <button id="clear-route">Hapus Rute</button>
+        </div>
+
+        {{-- Loading --}}
+        <div id="loading-indicator" class="loading-indicator">
+            <div class="loading-spinner"></div>
+            <div id="loading-text">Memuat...</div>
+        </div>
+
+        {{-- Mobile Control Buttons --}}
+        <div id="toggle-tools" class="mobile-control-button" title="Tools">
+            <i class="fas fa-tools"></i>
+        </div>
+
+        <div id="toggle-route" class="mobile-control-button" title="Route Info">
+            <i class="fas fa-route"></i>
+        </div>
     </main>
 @endsection
 
 @section('scripts')
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/maplibre-gl@2.1.9/dist/maplibre-gl.js"></script>
@@ -1546,6 +1233,7 @@
                 header.style.boxShadow = 'none';
             }
         });
+
         //----------- Map initialization ---------------//
         const map = new maplibregl.Map({
             container: 'map',
@@ -1574,6 +1262,8 @@
             map.setStyle(styleUrl);
 
             map.once('styledata', () => {
+                setupMapLayers();
+
                 map.once('idle', () => {
                     map.setCenter(currentCenter);
                     map.setZoom(currentZoom);
@@ -1622,7 +1312,26 @@
                     addRouteToMap(currentRoute.geometry);
                     document.getElementById('route-controls').classList.add('active');
                 }
+
+                if (layerStates.ndbi) toggleNdbilayer();
+                if (layerStates.lst) togglelstlayer();
             });
+        }
+
+        function setupMapLayers() {
+            if (!map.getSource('ndbi')) {
+                map.addSource('ndbi', {
+                    type: 'geojson',
+                    data: "{{ asset('geojson/ndbi.geojson') }}"
+                });
+            }
+
+            if (!map.getSource('lst')) {
+                map.addSource('lst', {
+                    type: 'geojson',
+                    data: "{{ asset('geojson/lst.geojson') }}"
+                });
+            }
         }
 
         function setActiveButton(activeId) {
@@ -1641,59 +1350,6 @@
             setActiveButton('satellite');
         });
 
-
-        //------------------------- Layer Controls ---------------------------//
-        let layerStates = {
-            kos: true,
-            halte: true,
-            univ: true
-        };
-
-        function saveLayerStates() {
-            layerStates = {
-                kos: document.getElementById('toggle-kos-clusters').checked,
-                halte: document.getElementById('toggle-halte-points').checked,
-                univ: document.getElementById('toggle-univ-points').checked
-            };
-        }
-
-        function applyLayerStates() {
-            if (map.getLayer('kos-clusters')) {
-                map.setLayoutProperty('kos-clusters', 'visibility', layerStates.kos ? 'visible' : 'none');
-                map.setLayoutProperty('kos-cluster-count', 'visibility', layerStates.kos ? 'visible' : 'none');
-            }
-
-            if (map.getLayer('haltePoints')) {
-                map.setLayoutProperty('haltePoints', 'visibility', layerStates.halte ? 'visible' : 'none');
-            }
-
-            if (map.getLayer('univPoints')) {
-                map.setLayoutProperty('univPoints', 'visibility', layerStates.univ ? 'visible' : 'none');
-            }
-
-            if (layerStates.kos) {
-                kosClusterMarkers.forEach(marker => marker.addTo(map));
-            } else {
-                kosClusterMarkers.forEach(marker => marker.remove());
-            }
-        }
-
-        document.getElementById('toggle-kos-clusters').addEventListener('change', function(e) {
-            layerStates.kos = e.target.checked;
-            applyLayerStates();
-        });
-
-        document.getElementById('toggle-halte-points').addEventListener('change', function(e) {
-            layerStates.halte = e.target.checked;
-            applyLayerStates();
-        });
-
-        document.getElementById('toggle-univ-points').addEventListener('change', function(e) {
-            layerStates.univ = e.target.checked;
-            applyLayerStates();
-        });
-
-        console.log('Halte state:', layerStates.halte, 'Univ state:', layerStates.univ);
 
         //---------------------- Loading indicator -------------------------//
         function showLoading(message = 'Loading...') {
@@ -1863,8 +1519,8 @@
                             .setLngLat(coordinates)
                             .setPopup(new maplibregl.Popup({
                                 offset: 25,
-                                closeOnClick: false,  // Ini yang membuat popup tidak tertutup saat klik di luar
-                                closeButton: true     // Memastikan tombol close (X) muncul
+                                closeOnClick: false,
+                                closeButton: true
                             }).setHTML(popupContent));
 
                         if (document.getElementById('toggle-kos-clusters').checked) {
@@ -2547,11 +2203,9 @@
                 const instructionsHTML = generateRouteInstructions(steps);
                 document.getElementById('route-instructions').innerHTML = instructionsHTML;
 
-                // Selalu aktifkan dan atur posisi untuk mobile
                 const routeControls = document.getElementById('route-controls');
                 routeControls.classList.add('active');
 
-                // Panggil fungsi update posisi
                 updateRoutePanelPosition();
 
                 document.getElementById('clear-route').style.display = 'block';
@@ -2660,7 +2314,6 @@
         }
 
         function removeRoute() {
-            // Hapus layer route
             routeLayerIds.forEach(layerId => {
                 if (map.getLayer(layerId)) {
                     map.removeLayer(layerId);
@@ -2668,24 +2321,19 @@
             });
             routeLayerIds = [];
 
-            // Hapus source route
             if (map.getSource('route-source')) {
                 map.removeSource('route-source');
             }
 
-            // Reset current route
             currentRoute = null;
 
-            // Reset UI
             document.getElementById('route-controls').classList.remove('active');
             document.getElementById('route-distance').textContent = '-';
             document.getElementById('route-duration').textContent = '-';
             document.getElementById('route-instructions').innerHTML = '';
 
-            // Sembunyikan tombol clear route
             document.getElementById('clear-route').style.display = 'none';
 
-            // Reset style untuk mobile
             if (window.innerWidth <= 768) {
                 const routeControls = document.getElementById('route-controls');
                 routeControls.style.position = '';
@@ -2725,7 +2373,6 @@
                 const destination = [lng, lat];
                 getRoute([userLocation.lng, userLocation.lat], destination);
 
-                // Tampilkan button clear route
                 document.getElementById('clear-route').style.display = 'block';
                 return;
             }
@@ -3078,13 +2725,93 @@
         }
 
 
-        //------------------------ Load map and fetch data from server ----------------------//
+        //------------------------- Layer Controls ---------------------------//
+        let layerStates = {
+            kos: false,
+            halte: false,
+            univ: false,
+            ndbi: false,
+            lst: false
+        };
+
+        function saveLayerStates() {
+            layerStates = {
+                kos: document.getElementById('toggle-kos-clusters').checked,
+                halte: document.getElementById('toggle-halte-points').checked,
+                univ: document.getElementById('toggle-univ-points').checked,
+                ndbi: document.getElementById('toggle-ndbi').checked,
+                lst: document.getElementById('toggle-lst').checked
+            };
+        }
+
+        function applyLayerStates() {
+            if (map.getLayer('kos-clusters')) {
+                map.setLayoutProperty('kos-clusters', 'visibility', layerStates.kos ? 'visible' : 'none');
+                map.setLayoutProperty('kos-cluster-count', 'visibility', layerStates.kos ? 'visible' : 'none');
+            }
+
+            if (map.getLayer('haltePoints')) {
+                map.setLayoutProperty('haltePoints', 'visibility', layerStates.halte ? 'visible' : 'none');
+            }
+
+            if (map.getLayer('univPoints')) {
+                map.setLayoutProperty('univPoints', 'visibility', layerStates.univ ? 'visible' : 'none');
+            }
+
+            if (layerStates.kos) {
+                kosClusterMarkers.forEach(marker => marker.addTo(map));
+            } else {
+                kosClusterMarkers.forEach(marker => marker.remove());
+            }
+
+            document.getElementById('toggle-ndbi').checked = layerStates.ndbi;
+            document.getElementById('toggle-lst').checked = layerStates.lst;
+        }
+
+
+        //------------------------ Load map and fetch data ----------------------//
         map.on('load', () => {
+            // Buat loading overlay
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.id = 'loading-overlay';
+            loadingOverlay.style.position = 'fixed';
+            loadingOverlay.style.top = '0';
+            loadingOverlay.style.left = '0';
+            loadingOverlay.style.width = '100%';
+            loadingOverlay.style.height = '100%';
+            loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+            loadingOverlay.style.display = 'none';
+            loadingOverlay.style.justifyContent = 'center';
+            loadingOverlay.style.alignItems = 'center';
+            loadingOverlay.style.zIndex = '9999';
+            loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
+            document.body.appendChild(loadingOverlay);
+
             fetch("{{ route('api.points') }}")
                 .then(response => response.json())
                 .then(data => {
                     addKosClusters(data);
                     allKosData = JSON.parse(JSON.stringify(data));
+
+                    const coordinates = data.features.map(f => f.geometry.coordinates);
+                    const bounds = coordinates.reduce((bounds, coord) => {
+                        return bounds.extend(coord);
+                    }, new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
+
+                    map.fitBounds(bounds, {
+                        padding: {
+                            top: 100,
+                            bottom: 100,
+                            left: 100,
+                            right: 100
+                        },
+                        maxZoom: 14
+                    });
+
+                    map.setLayoutProperty('kos-clusters', 'visibility', 'visible');
+                    map.setLayoutProperty('kos-cluster-count', 'visibility', 'visible');
+
+                    kosClusterMarkers.forEach(marker => marker.addTo(map));
 
                     document.querySelectorAll('.direction-button').forEach(button => {
                         button.addEventListener('click', (e) => {
@@ -3093,31 +2820,172 @@
                             handleDirectionButtonClick(lng, lat);
                         });
                     });
+                })
+                .catch(error => {
+                    console.error('Error loading kos data:', error);
                 });
 
             fetch("{{ route('api.halte') }}")
                 .then(response => response.json())
                 .then(data => {
                     addHaltePoints(data);
+                    map.setLayoutProperty('haltePoints', 'visibility', 'none');
                 });
 
             fetch("{{ route('api.univ') }}")
                 .then(response => response.json())
                 .then(data => {
                     addUnivPoints(data);
+                    map.setLayoutProperty('univPoints', 'visibility', 'none');
                 });
 
+            map.addSource('ndbi', {
+                type: 'geojson',
+                data: "{{ asset('geojson/ndbi.geojson') }}"
+            });
+
+            map.addSource('lst', {
+                type: 'geojson',
+                data: "{{ asset('geojson/lst.geojson') }}"
+            });
+
+            document.getElementById('toggle-kos-clusters').checked = true;
+            document.getElementById('toggle-halte-points').checked = false;
+            document.getElementById('toggle-univ-points').checked = false;
+            document.getElementById('toggle-ndbi').checked = false;
+            document.getElementById('toggle-lst').checked = false;
+
+            document.getElementById('toggle-kos-clusters').addEventListener('change', function(e) {
+                layerStates.kos = e.target.checked;
+                map.setLayoutProperty('kos-clusters', 'visibility', layerStates.kos ? 'visible' : 'none');
+                map.setLayoutProperty('kos-cluster-count', 'visibility', layerStates.kos ? 'visible' :
+                    'none');
+
+                if (layerStates.kos) {
+                    kosClusterMarkers.forEach(marker => marker.addTo(map));
+                } else {
+                    kosClusterMarkers.forEach(marker => marker.remove());
+                }
+            });
+
+            document.getElementById('toggle-halte-points').addEventListener('change', function(e) {
+                layerStates.halte = e.target.checked;
+                map.setLayoutProperty('haltePoints', 'visibility', layerStates.halte ? 'visible' : 'none');
+            });
+
+            document.getElementById('toggle-univ-points').addEventListener('change', function(e) {
+                layerStates.univ = e.target.checked;
+                map.setLayoutProperty('univPoints', 'visibility', layerStates.univ ? 'visible' : 'none');
+            });
+
+            document.getElementById('toggle-ndbi').addEventListener('change', toggleNdbilayer);
+            document.getElementById('toggle-lst').addEventListener('change', togglelstlayer);
         });
 
-        //------------------ Mobile controls toggle -------------------//
-        document.getElementById('toggle-tools').addEventListener('click', function() {
-            const controls = document.getElementById('map-controls');
-            controls.classList.toggle('mobile-active');
 
-            document.getElementById('route-controls').classList.remove('mobile-active');
-        });
+        //------------------------ Initialize NDBI Layer ----------------------//
+        let ndbiLayerAdded = false;
+
+        function toggleNdbilayer() {
+            const checkbox = document.getElementById('toggle-ndbi');
+            const loadingOverlay = document.getElementById('loading-overlay');
+
+            if (!loadingOverlay) {
+                console.error('Loading overlay not found');
+                return;
+            }
+
+            if (checkbox.checked && !ndbiLayerAdded) {
+                loadingOverlay.style.display = 'flex';
+
+                if (!map.getSource('ndbi')) {
+                    console.error('NDBI source not loaded');
+                    loadingOverlay.style.display = 'none';
+                    return;
+                }
+
+                map.addLayer({
+                    id: 'ndbi-layer',
+                    type: 'fill',
+                    source: 'ndbi',
+                    paint: {
+                        'fill-color': [
+                            'interpolate',
+                            ['linear'],
+                            ['get', 'nilai'],
+                            1, '#E8F5E9',
+                            5, '#A5D6A7',
+                            10, '#FFE082',
+                            15, '#EF9A9A'
+                        ],
+                        'fill-opacity': 0.7,
+                        'fill-outline-color': 'rgba(0,0,0,0)'
+                    }
+                }, 'kos-clusters');
+
+                ndbiLayerAdded = true;
+                loadingOverlay.style.display = 'none';
+            } else if (!checkbox.checked && ndbiLayerAdded) {
+                if (map.getLayer('ndbi-layer')) {
+                    map.removeLayer('ndbi-layer');
+                }
+                ndbiLayerAdded = false;
+            }
+        }
 
 
+        //------------------------ Initialize LST Layer ----------------------//
+        let lstLayerAdded = false;
+
+        function togglelstlayer() {
+            const checkbox = document.getElementById('toggle-lst');
+            const loadingOverlay = document.getElementById('loading-overlay');
+
+            if (!loadingOverlay) {
+                console.error('Loading overlay not found');
+                return;
+            }
+
+            if (checkbox.checked && !lstLayerAdded) {
+                loadingOverlay.style.display = 'flex';
+
+                if (!map.getSource('lst')) {
+                    console.error('LST source not loaded');
+                    loadingOverlay.style.display = 'none';
+                    return;
+                }
+
+                map.addLayer({
+                    id: 'lst-layer',
+                    type: 'fill',
+                    source: 'lst',
+                    paint: {
+                        'fill-color': [
+                            'interpolate',
+                            ['linear'],
+                            ['get', 'nilai'],
+                            1, '#c0e6ff',
+                            5, '#78aeff',
+                            10, '#FFE082',
+                            15, '#EF9A9A'
+                        ],
+                        'fill-opacity': 0.7,
+                        'fill-outline-color': 'rgba(0,0,0,0)'
+                    }
+                }, 'kos-clusters');
+
+                lstLayerAdded = true;
+                loadingOverlay.style.display = 'none';
+            } else if (!checkbox.checked && lstLayerAdded) {
+                if (map.getLayer('lst-layer')) {
+                    map.removeLayer('lst-layer');
+                }
+                lstLayerAdded = false;
+            }
+        }
+
+
+        //-------------------------- Toggle Map and Route ---------------------------//
         map.on('click', function(e) {
             if (window.innerWidth <= 768) {
                 document.getElementById('map-controls').classList.remove('mobile-active');
@@ -3130,13 +2998,12 @@
         });
 
         const toggleRouteBtn = document.getElementById('toggle-route');
-        toggleRouteBtn.removeEventListener('click', handleToggleRoute); // Hapus listener lama jika ada
+        toggleRouteBtn.removeEventListener('click', handleToggleRoute);
         toggleRouteBtn.addEventListener('click', handleToggleRoute);
 
         function handleToggleRoute() {
             const routeControls = document.getElementById('route-controls');
 
-            // Cek apakah ada rute di peta (bukan hanya currentRoute)
             const routeExists = map.getSource('route-source') || currentRoute;
 
             if (!routeExists && !routeControls.classList.contains('active')) {
@@ -3144,11 +3011,9 @@
                 return;
             }
 
-            // Toggle panel
             routeControls.classList.toggle('active');
             updateRoutePanelPosition();
 
-            // Debugging
             console.log('Route exists:', routeExists, 'Panel active:', routeControls.classList.contains('active'));
         }
 
@@ -3157,7 +3022,6 @@
             const isMobile = window.innerWidth <= 768;
 
             if (isMobile) {
-                // Style untuk mobile (selalu di bawah)
                 routeControls.style.position = 'fixed';
                 routeControls.style.bottom = '20px';
                 routeControls.style.left = '10px';
@@ -3165,9 +3029,8 @@
                 routeControls.style.top = 'auto';
                 routeControls.style.width = 'auto';
                 routeControls.style.maxHeight = '50vh';
-                routeControls.style.marginTop = '0'; // Hapus margin top jika ada
+                routeControls.style.marginTop = '0';
 
-                // Scroll ke bawah
                 setTimeout(() => {
                     window.scrollTo({
                         top: document.body.scrollHeight,
@@ -3175,21 +3038,19 @@
                     });
                 }, 300);
             } else {
-                // Style untuk desktop
                 routeControls.style.position = 'absolute';
                 routeControls.style.top = '60px';
                 routeControls.style.right = '10px';
                 routeControls.style.bottom = 'auto';
                 routeControls.style.left = 'auto';
                 routeControls.style.width = '300px';
-                routeControls.style.marginTop = '250px'; // Kembalikan margin untuk desktop
+                routeControls.style.marginTop = '250px';
             }
         }
         window.addEventListener('resize', updateRoutePanelPosition);
 
         window.addEventListener('resize', function() {
             if (window.innerWidth > 768) {
-                // Jika kembali ke desktop, pastikan route controls ada di posisi semula
                 document.getElementById('route-controls').style.position = 'absolute';
                 document.getElementById('route-controls').style.top = '60px';
                 document.getElementById('route-controls').style.right = '10px';
@@ -3197,7 +3058,6 @@
                 document.getElementById('route-controls').style.left = 'auto';
                 document.getElementById('route-controls').style.width = '300px';
             } else {
-                // Jika mobile, pastikan posisi fixed di bawah
                 if (document.getElementById('route-controls').classList.contains('active')) {
                     document.getElementById('route-controls').style.position = 'fixed';
                     document.getElementById('route-controls').style.bottom = '20px';
@@ -3208,43 +3068,103 @@
                 }
             }
         });
-        // Handle window resize
-function handleResize() {
-    const mapElement = document.getElementById('map');
-    const headerHeight = document.querySelector('.header').offsetHeight;
-    const footerHeight = document.querySelector('.footer').offsetHeight;
 
-    // Calculate map height based on viewport height minus header and footer
-    mapElement.style.height = `calc(100vh - ${headerHeight + footerHeight}px)`;
+        function handleResize() {
+            const mapElement = document.getElementById('map');
+            const headerHeight = document.querySelector('.header').offsetHeight;
+            const footerHeight = document.querySelector('.footer').offsetHeight;
 
-    // Update route panel position
-    updateRoutePanelPosition();
-}
+            mapElement.style.height = `calc(100vh - ${headerHeight + footerHeight}px)`;
 
-// Initialize on load
-window.addEventListener('load', handleResize);
-window.addEventListener('resize', handleResize);
+            updateRoutePanelPosition();
+        }
 
-// Toggle mobile controls
-document.getElementById('toggle-tools').addEventListener('click', function() {
-    const controls = document.getElementById('map-controls');
-    controls.classList.toggle('mobile-active');
+        window.addEventListener('load', handleResize);
+        window.addEventListener('resize', handleResize);
 
-    // Close other panels when opening tools
-    document.getElementById('route-controls').classList.remove('mobile-active');
-});
+        map.on('click', function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('map-controls').classList.remove('mobile-active');
+                document.getElementById('route-controls').classList.remove('mobile-active');
+            }
+        });
 
-// Close controls when clicking on map
-map.on('click', function() {
-    if (window.innerWidth <= 768) {
-        document.getElementById('map-controls').classList.remove('mobile-active');
-        document.getElementById('route-controls').classList.remove('mobile-active');
-    }
-});
+        document.getElementById('map-controls').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
 
-// Prevent map controls from closing when clicking on them
-document.getElementById('map-controls').addEventListener('click', function(e) {
-    e.stopPropagation();
-});
+        const toggleToolsBtn = document.getElementById('toggle-tools');
+        toggleToolsBtn.removeEventListener('click', handleToggleTools); // Hapus listener lama jika ada
+        toggleToolsBtn.addEventListener('click', handleToggleTools);
+
+        function handleToggleTools() {
+            const mapControls = document.getElementById('map-controls');
+
+            mapControls.classList.toggle('mobile-active');
+            updateToolsPanelPosition();
+
+            document.getElementById('route-controls').classList.remove('active');
+
+            console.log('Map controls active:', mapControls.classList.contains('mobile-active'));
+        }
+
+        function updateToolsPanelPosition() {
+            const mapControls = document.getElementById('map-controls');
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                mapControls.style.position = 'fixed';
+                mapControls.style.bottom = '80px';
+                mapControls.style.left = '10px';
+                mapControls.style.right = '10px';
+                mapControls.style.top = 'auto';
+                mapControls.style.width = 'auto';
+                mapControls.style.maxHeight = '60vh';
+                mapControls.style.overflowY = 'auto';
+            } else {
+                mapControls.style.position = 'absolute';
+                mapControls.style.top = '20px';
+                mapControls.style.left = '20px';
+                mapControls.style.right = 'auto';
+                mapControls.style.bottom = 'auto';
+                mapControls.style.width = '300px';
+                mapControls.style.maxHeight = 'none';
+            }
+        }
+
+        window.addEventListener('resize', updateToolsPanelPosition);
+
+        map.on('click', function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('map-controls').classList.remove('mobile-active');
+            }
+        });
+
+        document.getElementById('map-controls').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        //-------------------------- Toggle Layer ---------------------------//
+        const layerControls = document.getElementById('layer-controls');
+
+        layerControls.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                this.classList.toggle('mobile-expanded');
+
+                // Tutup panel lain jika terbuka
+                document.getElementById('map-controls').classList.remove('mobile-active');
+                document.getElementById('route-controls').classList.remove('active');
+            }
+        });
+
+        map.on('click', function() {
+            if (window.innerWidth <= 768) {
+                layerControls.classList.remove('mobile-expanded');
+            }
+        });
+
+        layerControls.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
     </script>
 @endsection

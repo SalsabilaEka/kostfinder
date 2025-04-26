@@ -47,7 +47,6 @@ class PointControllerUniv extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // function store memasukkan data ke dalam database
     public function store()
     {
 

@@ -32,9 +32,6 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/forgot-password/check', [PasswordResetController::class, 'checkEmail'])
         ->name('password.check');
-
-    // Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'])
-    //     ->name('password.update');
 });
 
 Route::get('/map', [MapController::class, 'map'])->name('map');
@@ -44,8 +41,10 @@ Route::get('/fitur', [MapController::class, 'fitur'])->name('fitur');
 Route::get('/infografis', [MapController::class, 'infografis'])->name('infografis');
 
 Route::post('/store-point', [PointController::class, 'store'])->name('store-point');
-Route::delete('/delete-point/{id}', [PointController::class, 'destroy'])->name('delete-point');
 Route::get('/edit-point/{id}', [PointController::class, 'edit'])->name('edit-point');
+Route::delete('/points/{id}', [PointController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('points.destroy');
 
 Route::patch('/update-point/{id}', [PointController::class, 'update'])->name('update-point');
 Route::get('/points/table', [PointController::class, 'table'])->name('points.table');
@@ -53,7 +52,6 @@ Route::post('/point/store-geojson', [PointController::class, 'storeGeoJSON'])->n
 Route::post('/points', [PointController::class, 'store'])->middleware('auth');
 
 Route::get('/api/point/{id}', [PointController::class, 'show'])->name('api.point.show');
-
 
 Route::get('/about', function () {
     return view('about');
@@ -76,9 +74,9 @@ Route::get('/api/facility-chart-data', [PointController::class, 'getFacilityChar
 
 // Reset password langsung
 Route::get('/direct-reset', [PasswordResetLinkController::class, 'create'])
-     ->name('password.direct.request');
+    ->name('password.direct.request');
 
 Route::post('/direct-reset', [PasswordResetLinkController::class, 'resetDirect'])
-     ->name('password.direct.update');
+    ->name('password.direct.update');
 
 require __DIR__.'/auth.php';

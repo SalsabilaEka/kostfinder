@@ -2,7 +2,6 @@
 
 @section('styles')
     <style>
-        /* Tambahkan di section styles Anda */
         html,
         body {
             height: 100%;
@@ -16,24 +15,7 @@
 
         .main-content {
             flex: 1;
-            margin-top: 12%;
-            /* Sesuaikan dengan padding/margin yang dibutuhkan */
-        }
 
-        .footer {
-            background-color: #ECCDA0;
-            border-top: 5px solid #673E42;
-            padding: 20px 0;
-            text-align: center;
-            margin-top: auto;
-            /* Ini yang akan push footer ke bawah */
-        }
-
-        .footer p {
-            color: black;
-            font-size: 15px;
-            font-weight: 400;
-            margin: 0;
         }
 
         /* Infographic Section */
@@ -172,10 +154,8 @@
             border-radius: 50%;
         }
 
+        /* Responsive */
         @media (max-width: 1200px) {
-            .main-content {
-                margin-top: 250px;
-            }
             .infographic-section {
                 padding: 120px 0 80px;
             }
@@ -190,10 +170,9 @@
                 justify-content: center;
             }
         }
+
         @media (max-width: 992px) {
-            .main-content {
-                margin-top: 300px;
-            }
+
             .infographic-section {
                 padding: 120px 0 80px;
             }
@@ -210,9 +189,7 @@
         }
 
         @media (max-width: 768px) {
-            .main-content {
-                margin-top: 300px;
-            }
+
             .infographic-section {
                 padding: 100px 0 60px;
             }
@@ -233,18 +210,10 @@
             .chart-col {
                 padding: 20px;
             }
-
-            .footer p {
-                font-size: 13px;
-            }
         }
 
-        /* Tambahkan di section styles Anda setelah media query yang sudah ada */
-
         @media (max-width: 552px) {
-            .main-content {
-                margin-top: 150px;
-            }
+
             .logo h1 {
                 font-size: 20px;
             }
@@ -307,9 +276,7 @@
         }
 
         @media (max-width: 480px) {
-            .main-content {
-                margin-top: 150px;
-            }
+
             .logo h1 {
                 font-size: 18px;
             }
@@ -355,11 +322,6 @@
                 top: 8px;
             }
 
-            .footer p {
-                font-size: 12px;
-            }
-
-            /* Penyesuaian khusus untuk chart */
             .chart-col canvas {
                 max-width: 100%;
                 max-height: 200px;
@@ -367,9 +329,7 @@
         }
 
         @media (max-width: 350px) {
-            .main-content {
-                margin-top: 180px;
-            }
+
             .logo h1 {
                 font-size: 18px;
             }
@@ -415,15 +375,205 @@
                 top: 8px;
             }
 
-            .footer p {
-                font-size: 12px;
-            }
-
-            /* Penyesuaian khusus untuk chart */
             .chart-col canvas {
                 max-width: 100%;
                 max-height: 200px;
             }
+        }
+
+        /* Box Text & Graph Components */
+        .box-graph-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            padding: 0 1rem;
+        }
+
+        .text-box {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .text-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .text-box h3 {
+            font-family: var(--heading-font);
+            color: var(--primary-color);
+            font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+            margin-bottom: 0.75rem;
+        }
+
+        .text-box p {
+            font-family: var(--default-font);
+            color: var(--text-color);
+            font-size: clamp(0.9rem, 1.2vw, 1rem);
+            line-height: 1.6;
+        }
+
+        .graph-container {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .graph-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .graph-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: var(--circle-bg-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-family: var(--heading-font);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .graph-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .graph-placeholder i {
+            font-size: 3rem;
+            opacity: 0.2;
+        }
+
+        /* Animated Graph Bars (Example) */
+        .graph-bars {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 100%;
+            padding: 0 1rem;
+            gap: 0.5rem;
+        }
+
+        .bar {
+            width: 12%;
+            background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
+            border-radius: 4px 4px 0 0;
+            animation: barGrow 1.2s ease-out forwards;
+            transform-origin: bottom;
+            opacity: 0;
+        }
+
+        @keyframes barGrow {
+            0% {
+                transform: scaleY(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .box-graph-container {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            .text-box {
+                flex: 1;
+                padding: 2rem;
+            }
+
+            .graph-container {
+                flex: 1.5;
+            }
+
+            .graph-placeholder {
+                height: 350px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .box-graph-container {
+                gap: 3rem;
+            }
+
+            .text-box h3 {
+                font-size: 1.25rem;
+            }
+
+            .text-box p {
+                font-size: 1rem;
+            }
+
+            .graph-placeholder {
+                height: 400px;
+            }
+        }
+
+        /* Animation Trigger */
+        [data-aos="box-graph"] {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        [data-aos="box-graph"].aos-animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Delay for Graph Bars */
+        .bar:nth-child(1) {
+            animation-delay: 0.2s;
+            height: 30%;
+        }
+
+        .bar:nth-child(2) {
+            animation-delay: 0.4s;
+            height: 60%;
+        }
+
+        .bar:nth-child(3) {
+            animation-delay: 0.6s;
+            height: 45%;
+        }
+
+        .bar:nth-child(4) {
+            animation-delay: 0.8s;
+            height: 75%;
+        }
+
+        .bar:nth-child(5) {
+            animation-delay: 1.0s;
+            height: 50%;
+        }
+
+        .bar:nth-child(6) {
+            animation-delay: 1.2s;
+            height: 90%;
         }
     </style>
 @endsection
@@ -516,7 +666,7 @@
             once: true
         });
 
-        // Tab Navigation Functionality
+        //------------------ Tab Navigation Functionality ------------------//
         const tabButtons = document.querySelectorAll('.tab-button');
         const tabContents = document.querySelectorAll('.tab-content');
 
@@ -524,26 +674,22 @@
             button.addEventListener('click', () => {
                 const tabId = button.getAttribute('data-tab');
 
-                // Remove active class from all buttons and contents
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 tabContents.forEach(content => content.classList.remove('active'));
 
-                // Add active class to clicked button and corresponding content
                 button.classList.add('active');
                 document.getElementById(tabId).classList.add('active');
             });
         });
 
-        // Initialize Charts
+        //---------------- Initialize Charts -----------------//
         function initCharts() {
-            // Object to store chart instances
             const chartInstances = {
                 radiusChart: null,
                 priceChart: null,
                 facilitiesChart: null
             };
 
-            // Radius Chart (Jarak ke Kampus)
             async function loadRadiusChart() {
                 try {
                     const response = await fetch('/api/distance-chart-data');
@@ -555,7 +701,6 @@
                     } = await response.json();
                     const ctx = document.getElementById('radiusChart');
 
-                    // Destroy previous chart if exists
                     if (chartInstances.radiusChart) {
                         chartInstances.radiusChart.destroy();
                     }
@@ -614,7 +759,6 @@
                 }
             }
 
-            // Price Chart
             async function loadPriceChart() {
                 try {
                     const response = await fetch('/api/price-chart-data');
@@ -626,7 +770,6 @@
                     } = await response.json();
                     const ctx = document.getElementById('priceChart');
 
-                    // Destroy previous chart if exists
                     if (chartInstances.priceChart) {
                         chartInstances.priceChart.destroy();
                     }
@@ -697,41 +840,34 @@
                     'ruangtamu': 'Ruang Tamu'
                 };
 
-                // Cek apakah ada penggantian khusus
                 if (replacements[originalLabel.toLowerCase()]) {
                     return replacements[originalLabel.toLowerCase()];
                 }
 
-                // Default transformation
                 return originalLabel
                     .replace(/([a-z])([A-Z])/g, '$1 $2') // CamelCase to space
                     .replace(/[_-]/g, ' ') // Underscore/hyphen to space
                     .replace(/\b\w/g, char => char.toUpperCase()); // Capitalize each word
             }
 
-            // Facilities Pie Chart
             async function loadFacilitiesChart() {
                 try {
                     const response = await fetch('/api/facility-chart-data');
                     if (!response.ok) throw new Error('Network response was not ok');
 
-                    // Pertama, dapatkan data dari response
                     const {
                         labels,
                         data
                     } = await response.json();
 
-                    // Kemudian format labels
                     const formattedLabels = labels.map(label => formatFacilityLabel(label));
 
                     const ctx = document.getElementById('facilitiesChart');
 
-                    // Destroy previous chart if exists
                     if (chartInstances.facilitiesChart) {
                         chartInstances.facilitiesChart.destroy();
                     }
 
-                    // Simplified color generation
                     const generateColors = (count) => {
                         const baseColors = [
                             '#673E42', '#8C5D60', '#B58B8E', '#D9B8BB',
@@ -798,22 +934,18 @@
                 }
             }
 
-            // Load charts when tabs are clicked
             document.querySelector('.tab-button[data-tab="radius"]').addEventListener('click', loadRadiusChart);
             document.querySelector('.tab-button[data-tab="price"]').addEventListener('click', loadPriceChart);
             document.querySelector('.tab-button[data-tab="facilities"]').addEventListener('click', loadFacilitiesChart);
 
-            // Load initial charts
             loadRadiusChart();
             loadPriceChart();
 
-            // If facilities tab is active on load
             if (document.querySelector('.tab-button[data-tab="facilities"].active')) {
                 loadFacilitiesChart();
             }
         }
 
-        // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             initCharts();
 
