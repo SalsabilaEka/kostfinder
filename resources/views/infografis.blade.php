@@ -116,8 +116,7 @@
             align-items: center;
             justify-content: center;
             background-color: #f8f9fa;
-            overflow-x: auto;
-             width: 100%;
+
         }
 
         .content-title {
@@ -650,8 +649,8 @@
                         </ul>
 
                     </div>
-                    <div class="chart-scrollable" style="overflow-x: auto; width: 100%; padding: 20px">
-                        <div style="display: grid; grid-auto-flow: column;"> <!-- Sesuaikan min-width -->
+                    <div class="chart-container" style="overflow-x: auto; width: 100%;">
+                        <div style="min-width: 400px; padding: 10px;"> <!-- Sesuaikan min-width sesuai kebutuhan -->
                             <canvas id="facilitiesChart"></canvas>
                         </div>
                     </div>
