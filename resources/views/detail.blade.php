@@ -23,8 +23,31 @@
                                 <div class="photo-column">
                                     <div class="small-photo-container">
                                         @if ($kos->foto)
+                                            @php
+                                                function getDriveLink($url)
+                                                {
+                                                    if (strpos($url, 'drive.google.com') !== false) {
+                                                        if (
+                                                            preg_match(
+                                                                '/\/file\/d\/([a-zA-Z0-9_-]+)/',
+                                                                $url,
+                                                                $matches,
+                                                            ) ||
+                                                            preg_match('/id=([a-zA-Z0-9_-]+)/', $url, $matches) ||
+                                                            preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $url, $matches)
+                                                        ) {
+                                                            $fileId = $matches[1];
+                                                            return 'https://drive.google.com/uc?export=view&id=' .
+                                                                $fileId;
+                                                        }
+                                                    }
+                                                    return $url;
+                                                }
+                                            @endphp
+
                                             @if (filter_var($kos->foto, FILTER_VALIDATE_URL))
-                                                <img src="{{ $kos->foto }}" class="small-photo" alt="Foto Kos">
+                                                <img src="{{ getDriveLink($kos->foto) }}" class="small-photo"
+                                                    alt="Foto Kos">
                                             @else
                                                 <img src="{{ asset('storage/images/' . $kos->foto) }}" class="small-photo"
                                                     alt="Foto Kos">
@@ -33,6 +56,7 @@
                                             <img src="https://via.placeholder.com/400?text=No+Photo" class="small-photo"
                                                 alt="Foto Kos">
                                         @endif
+
                                     </div>
                                 </div>
 

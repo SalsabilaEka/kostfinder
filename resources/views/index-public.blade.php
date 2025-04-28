@@ -1492,20 +1492,26 @@
                         const detailUrl = `/points/table?search=${encodeURIComponent(kosData.properties.nama)}`;
 
                         const timestamp = new Date().getTime();
-                        const getFotoUrl = (fotoPath) => {
-                            if (!fotoPath) return null;
+                        const getCleanFotoUrl = (url) => {
+                            if (!url) return null;
 
-                            // Jika sudah URL lengkap
-                            if (fotoPath.startsWith('http')) {
-                                return `${fotoPath}?${new Date().getTime()}`;
+                            if (url.includes('drive.google.com')) {
+                                // Regex yang menangani karakter khusus seperti strip (-)
+                                const fileId = url.match(/\/file\/d\/([\w-]+)/)?.[1] ||
+                                    url.match(/id=([\w-]+)/)?.[1] ||
+                                    url.match(/\/d\/([\w-]+)/)?.[1];
+
+                                if (fileId) {
+                                    return `https://drive.google.com/uc?export=view&id=${fileId}`;
+                                }
                             }
+                            return url;
 
-                            // Jika path relatif (format lama)
-                            // Ubah ke URL lengkap dengan domain Anda
-                            return `https://edgize.mapid.co.id/${fotoPath.replace(/^\/?uploads\//, 'uploads/')}?${new Date().getTime()}`;
+                            console.log(fotoUrl);
+
                         };
 
-                        const fotoUrl = getFotoUrl(feature.properties.foto);
+                        const fotoUrl = getCleanFotoUrl(feature.properties.foto);
 
                         const popupContent = `
                             <h2>${kosData.properties.nama}</h2>
@@ -1514,12 +1520,12 @@
                             </div>
                             <div><strong>Jenis:</strong> ${kosData.properties.jenis}</div>
                             ${fotoUrl ? `
-                                        <div style="margin-top: 10px; text-align: center;">
-                                            <img src="${fotoUrl}"
-                                                style="width: 220px; height: 220px; border-radius: 4px;"
-                                                onerror="this.style.display='none'">
-                                        </div>
-                                    ` : ''}
+                                            <div style="margin-top: 10px; text-align: center;">
+                                                <img src="${fotoUrl}"
+                                                    style="width: 220px; height: 220px; border-radius: 4px;"
+                                                    onerror="this.style.display='none'">
+                                            </div>
+                                        ` : ''}
 
                             <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
                             <button class="direction-button" data-lng="${kosData.geometry.coordinates[0]}" data-lat="${kosData.geometry.coordinates[1]}">

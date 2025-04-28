@@ -82,76 +82,7 @@ class PointController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required',
-            'geom' => 'required',
-            'harga' => 'required|integer|min:0',
-            'foto' => 'mimes:jpeg,jpg,png,gif|max:100000' //10 MB
-        ],
-        [
-            'nama.required' => 'Name is required',
-            'geom.required' => 'Location is required',
-            'foto.mimes' => 'Image must be a file of type: jpeg, jpg, png, gif',
-            'foto.max' => 'Image must not exceed 10 MB'
-        ]);
 
-        $point = new Point($validated);
-        $point->save();
-
-        if(!is_dir('storage/images')) {
-            mkdir('storage/images', 0777, true);
-        }
-
-        if ($request->hasFile('foto')) {
-            $foto = $request->file('foto');
-            $filename = time() . '_point.' . $foto->getClientOriginalExtension();
-            $foto->move('storage/images', $filename);
-        } else {
-            $filename = null;
-        }
-
-
-        $data = [
-            'nama' => $request->nama,
-            'alamat' => $request->alamat,
-            'jenis' => $request->jenis,
-            'harga' => $request->harga,
-            'geom' => DB::raw("ST_GeomFromGeoJSON('" . $request->geom . "')"),
-            'foto' => $filename,
-            'pemilik' => $request->pemilik,
-            'telepon' => $request->telepon,
-            'tunai' => $request->tunai,
-            'transfer' => $request->transfer,
-            'ewallet' => $request->ewallet,
-            'lbangunan' => $request->lbangunan,
-            'ltanah' => $request->ltanah,
-            'jenissertifikat' => $request->jenissertifikat,
-            'ac' => $request->ac,
-            'kasur' => $request->kasur,
-            'mejakursi' => $request->mejakursi,
-            'kamarmandi' => $request->kamarmandi,
-            'lemari' => $request->lemari,
-            'wifi' => $request->wifi,
-            'dapur' => $request->dapur,
-            'kulkas' => $request->kulkas,
-            'ruangtamu' => $request->ruangtamu,
-            'parkirmotor' => $request->parkirmotor,
-            'parkirmobil' => $request->parkirmobil,
-            'cctv' => $request->cctv,
-            'keamanan' => $request->keamanan,
-            'listrik' => $request->listrik,
-            'air' => $request->air,
-            'jammalam' => $request->jammalam,
-            'ketjammalam' => $request->ketjammalam,
-        ];
-
-        $point = $this->point->create($data);
-
-        if(!$point) {
-            return redirect()->back()->with('error', 'Failed to create point');
-        }
-
-        return redirect()->back()->with('success', 'Point created successfully')->with('point_id', $point->id);
     }
 
     /**
@@ -161,6 +92,14 @@ class PointController extends Controller
     {
         try {
             $point = Points::findOrFail($id);
+
+            if (auth()->user()->email !== 'adminkostfinder@gmail.com' &&
+            $point->user_name !== auth()->user()->email) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized access'
+            ], 403);
+        }
 
             return response()->json([
                 'success' => true,
@@ -172,6 +111,7 @@ class PointController extends Controller
                     'telepon' => $point->telepon,
                     'jenis' => $point->jenis,
                     'harga' => $point->harga,
+                    'foto' => $point->foto,
                     'lbangunan' => $point->lbangunan,
                     'ltanah' => $point->ltanah,
                     'jenissertifikat' => $point->jenissertifikat,
@@ -195,7 +135,6 @@ class PointController extends Controller
                     'air' => $point->air,
                     'jammalam' => $point->jammalam,
                     'ketjammalam' => $point->ketjammalam,
-                    'foto' => $point->foto ? asset('storage/images/' . $point->foto) : null,
                     'user_name' => $point->user_name,
                     'longitude' => $point->longitude,
                     'latitude' => $point->latitude
@@ -260,23 +199,6 @@ class PointController extends Controller
         $data['listrik'] = $request->input('listrik', '0') == '1' ? 'Ada' : 'Tidak';
         $data['air'] = $request->input('air', '0') == '1' ? 'Ada' : 'Tidak';
 
-        if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
-            if ($point->foto) {
-                $oldFilename = basename($point->foto);
-                $oldPath = public_path('uploads/kost/' . $oldFilename);
-                if (file_exists($oldPath)) {
-                    unlink($oldPath);
-                }
-            }
-
-            // Simpan foto baru
-            $file = $request->file('foto');
-            $filename = 'kost_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/kost'), $filename);
-            $data['foto'] = "https://edgize.mapid.co.id/uploads/kost/{$filename}";
-        }
-
         $point->update($data);
 
         return response()->json([
@@ -298,14 +220,6 @@ class PointController extends Controller
                 'success' => false,
                 'message' => 'Unauthorized action'
             ], 403);
-        }
-
-        if ($point->foto) {
-            $filename = basename($point->foto);
-            $path = public_path('uploads/kost/' . $filename);
-            if (file_exists($path)) {
-                unlink($path);
-            }
         }
 
         $point->delete();
@@ -342,7 +256,6 @@ class PointController extends Controller
             'geom' => 'required',
             'jenis' => 'required',
             'harga' => 'required|integer|min:0',
-            'foto' => 'sometimes|mimes:jpeg,jpg,png,gif|max:10000'
         ]);
 
         try {
@@ -355,18 +268,6 @@ class PointController extends Controller
                 ], 400);
             }
 
-            $filename = null;
-            if ($request->hasFile('foto')) {
-                $file = $request->file('foto');
-                $filename = 'kost_' . time() . '.' . $file->getClientOriginalExtension();
-
-                // Simpan ke public/uploads/kost
-                $file->move(public_path('uploads/kost'), $filename);
-
-                // Simpan URL lengkap
-                $filename = "https://edgize.mapid.co.id/uploads/kost/{$filename}";
-            }
-
             $point = new Points();
             $point->user_name = auth()->user()->email;
             $point->nama = $request->nama;
@@ -376,7 +277,7 @@ class PointController extends Controller
             $point->longitude = $geom->coordinates[0];
             $point->latitude = $geom->coordinates[1];
             $point->geom = DB::raw("ST_GeomFromGeoJSON('" . $request->geom . "')");
-            $point->foto = $filename;
+            $point->foto = $request->foto ?: null;
             $point->pemilik = $request->pemilik ?? null;
             $point->telepon = $request->telepon ?? null;
             $point->tunai = $request->tunai ?? false;
@@ -437,6 +338,7 @@ class PointController extends Controller
             'data' => array_values($data)
         ]);
     }
+
 
     public function getDistanceChartData(Request $request)
     {

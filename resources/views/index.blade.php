@@ -371,6 +371,14 @@
         .modal-confirm-btn-delete:hover {
             background-color: #5a3f40;
         }
+
+        /* Untuk gambar di popup */
+        .mapboxgl-popup-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
     </style>
 @endsection
 
@@ -405,7 +413,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="addPointModalLabel">Tambah Data Kos</h5>
                             </div>
-                            <form id="add-point-form" method="POST" action="{{ route('point.storeGeoJSON') }}" enctype="multipart/form-data" novalidate>
+                            <form id="add-point-form" enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="modal-body">
                                     <input type="hidden" id="point-geom" name="geom">
@@ -678,9 +686,13 @@
                                             <div style="margin-bottom: 16px;">
                                                 <label for="foto"
                                                     style="display: block; margin-bottom: 6px; font-weight: 500; color: #333;">Foto
-                                                    Kos</label>
-                                                <input type="file" id="foto" name="foto" accept="image/*"
-                                                    style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px;">
+                                                    Kos (URL)</label>
+                                                <input type="url" id="foto" name="foto"
+                                                    placeholder="https://drive.google.com/..."
+                                                    style="width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px;">
+                                                <div style="font-size: 12px; color: #6c757d; margin-top: 4px;">
+                                                    Masukkan URL gambar (Google Drive)
+                                                </div>
                                             </div>
 
                                             <div style="font-size: 13px; color: #6c757d;"><span
@@ -710,7 +722,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form id="edit-point-form" method="POST" action="{{ route('point.storeGeoJSON') }}" enctype="multipart/form-data" novalidate>
+                            <form id="edit-point-form" enctype="multipart/form-data" novalidate>
                                 @csrf
                                 @method('PUT')
                                 <div class="modal-body">
@@ -990,12 +1002,13 @@
                                             <div style="margin-bottom: 16px;">
                                                 <label for="edit-foto"
                                                     style="display: block; margin-bottom: 6px; font-weight: 500; color: #333;">Foto
-                                                    Kos</label>
-                                                <input type="file" id="edit-foto" name="foto" accept="image/*"
-                                                    style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px;">
-                                                <div id="edit-foto-preview" style="margin-top: 8px;">
-                                                    <img id="edit-foto-preview-img" src=""
-                                                        style="max-width: 200px; border: 1px solid #ddd; border-radius: 4px; display: none;">
+                                                    Kos (URL)</label>
+                                                <input type="url" id="edit-foto" name="foto"
+                                                    placeholder="https://drive.google.com/..."
+                                                    style="width: 100%; padding: 8px 12px; border: 1px solid #ced4da; border-radius: 4px; font-size: 14px;">
+
+                                                <div style="font-size: 12px; color: #6c757d; margin-top: 4px;">
+                                                    Masukkan URL gambar (contoh: Google Drive, Imgur, dll)
                                                 </div>
                                             </div>
 
@@ -1096,11 +1109,9 @@
             document.getElementById('add-point-form').addEventListener('submit', function(e) {
                 e.preventDefault();
 
-                // Hapus pemanggilan savePoint() yang duplikat
                 if (validateForm('add-point-form')) {
                     savePoint();
                 }
-                // Hapus savePoint() yang ada di sini
             });
 
             document.getElementById('addPointModal').addEventListener('hidden.bs.modal', function() {
@@ -1115,7 +1126,6 @@
 
             formData.append('user_name', '{{ auth()->user()->name }}');
 
-            // Konversi harga ke integer sebelum dikirim
             const harga = formData.get('harga');
             if (harga.includes('.')) {
                 formData.set('harga', Math.round(parseFloat(harga)));
@@ -1240,40 +1250,24 @@
 
             document.getElementById('edit-point-form').addEventListener('submit', function(e) {
                 e.preventDefault();
-
-                // Hapus pemanggilan updatePoint() yang duplikat
-                if (validateForm('edit-point-form')) {
-                    updatePoint();
-                }
-                // Hapus updatePoint() yang ada di sini
-            });
-
-            document.getElementById('edit-foto').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const previewImg = document.getElementById('edit-foto-preview-img');
-                        previewImg.src = event.target.result;
-                        previewImg.style.display = 'block';
-
-                        document.getElementById('edit-image-old').value = '';
-                    };
-                    reader.readAsDataURL(file);
-                }
+                updatePoint();
             });
         }
 
         function showEditModal(pointId) {
-            fetch(`/api/point/${pointId}`)
+            fetch(`/api/point/${pointId}`, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then(data => {
-
                     if (data.success) {
                         const point = data.data;
 
@@ -1314,15 +1308,10 @@
                         };
                         document.getElementById('edit-point-geom').value = JSON.stringify(geom);
 
-                        const fotoPreview = document.getElementById('edit-foto-preview-img');
-                        if (point.foto) {
-                            fotoPreview.src = point.foto;
-                            fotoPreview.style.display = 'block';
-                            document.getElementById('edit-image-old').value = point.foto.split('/').pop();
-                        } else {
-                            fotoPreview.style.display = 'none';
-                            document.getElementById('edit-image-old').value = '';
-                        }
+                        const fotoUrl = point.foto || '';
+                        document.getElementById('edit-foto').value = fotoUrl;
+
+
 
                         editPointModal.show();
                     } else {
@@ -1422,20 +1411,23 @@
                 el.innerHTML = `<i class="fas fa-location-dot" style="color: ${color}; font-size: 26px;"></i>`;
 
                 const timestamp = new Date().getTime();
-                const getFotoUrl = (fotoPath) => {
-                    if (!fotoPath) return null;
+                const getCleanFotoUrl = (url) => {
+                    if (!url) return null;
 
-                    // Jika sudah URL lengkap
-                    if (fotoPath.startsWith('http')) {
-                        return `${fotoPath}?${new Date().getTime()}`;
+                    if (url.includes('drive.google.com')) {
+                        // Regex yang menangani karakter khusus seperti strip (-)
+                        const fileId = url.match(/\/file\/d\/([\w-]+)/)?.[1] ||
+                            url.match(/id=([\w-]+)/)?.[1] ||
+                            url.match(/\/d\/([\w-]+)/)?.[1];
+
+                        if (fileId) {
+                            return `https://drive.google.com/uc?export=view&id=${fileId}`;
+                        }
                     }
-
-                    // Jika path relatif (format lama)
-                    // Ubah ke URL lengkap dengan domain Anda
-                    return `https://edgize.mapid.co.id/${fotoPath.replace(/^\/?uploads\//, 'uploads/')}?${new Date().getTime()}`;
+                    return url;
                 };
 
-                const fotoUrl = getFotoUrl(feature.properties.foto);
+                const fotoUrl = getCleanFotoUrl(feature.properties.foto);
 
                 const popupContent = `
             <div style="max-width: 250px;">
@@ -1444,21 +1436,27 @@
                     Rp${feature.properties.harga ? Number(feature.properties.harga).toLocaleString('id-ID') : '0'}/bulan
                 </div>
                 <div><strong>Jenis:</strong> ${feature.properties.jenis || '-'}</div>
-                <div><strong>Alamat:</strong> ${feature.properties.alamat || '-'}</div>
-                <div><strong>Telepon:</strong> ${feature.properties.telepon || '-'}</div>
-                ${fotoUrl ? `
-                                                                    <div style="margin-top: 10px; text-align: center;">
-                                                                        <img src="${fotoUrl}"
-                                                                            style="width: 220px; height: 220px; border-radius: 4px;"
-                                                                            onerror="this.style.display='none'">
-                                                                    </div>
-                                                                ` : ''}
-                <div class="mt-2 d-flex justify-content-between">
-                    ${canEdit ? `
-                                                                                    <button onclick="showEditModal(${feature.properties.id})" style="background-color:#5D3A00;color:white;padding:8px 16px;font-size:14px;border:none;border-radius:6px;cursor:pointer;">Edit</button>
-                                                                                    <button onclick="confirmDelete(${feature.properties.id})" style="background-color:#dc3545;color:white;padding:8px 16px;font-size:14px;border:none;border-radius:6px;cursor:pointer;">Delete</button>
-                                                                                ` : ''}
-                </div>
+                    <div><strong>Alamat:</strong> ${feature.properties.alamat || '-'}</div>
+                    <div><strong>Telepon:</strong> ${feature.properties.telepon || '-'}</div>
+                    ${fotoUrl ? `
+                                        <div style="margin-top: 10px; text-align: center;">
+                                            <img src="${fotoUrl}"
+                                                style="max-width: 100%; max-height: 200px; border-radius: 4px;"
+                                                onerror="this.style.display='none'">
+                                        </div>
+                                    ` : '<div style="margin: 10px 0; color: #666;">Tidak ada foto</div>'}
+                ${canEdit ? `
+                                        <div style="margin-top: 15px; display: flex; justify-content: space-between;">
+                                            <button onclick="showEditModal(${feature.properties.id})"
+                                                style="background-color:#5D3A00; color:white; padding:6px 12px; font-size:13px; border:none; border-radius:4px; cursor:pointer;">
+                                                Edit
+                                            </button>
+                                            <button onclick="confirmDelete(${feature.properties.id})"
+                                                style="background-color:#dc3545; color:white; padding:6px 12px; font-size:13px; border:none; border-radius:4px; cursor:pointer;">
+                                                Hapus
+                                            </button>
+                                        </div>
+                                    ` : ''}
             </div>
         `;
 
@@ -1716,6 +1714,15 @@
             }
 
             return true;
+        }
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
         }
     </script>
 @endsection
