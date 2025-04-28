@@ -405,7 +405,7 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="addPointModalLabel">Tambah Data Kos</h5>
                             </div>
-                            <form id="add-point-form" enctype="multipart/form-data" novalidate>
+                            <form id="add-point-form" method="POST" action="{{ route('point.storeGeoJSON') }}" enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="modal-body">
                                     <input type="hidden" id="point-geom" name="geom">
@@ -710,7 +710,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form id="edit-point-form" enctype="multipart/form-data" novalidate>
+                            <form id="edit-point-form" method="POST" action="{{ route('point.storeGeoJSON') }}" enctype="multipart/form-data" novalidate>
                                 @csrf
                                 @method('PUT')
                                 <div class="modal-body">
